@@ -55,3 +55,16 @@ logs/
 
 # ── Package locks (keep package-lock.json, skip yarn) ────
 yarn.lock
+
+
+
+# Large AI model weights
+*.safetensors
+*.pt
+*.pth
+*.onnx
+
+/backend/uploads/
+
+# Temporary development files
+/scratch/

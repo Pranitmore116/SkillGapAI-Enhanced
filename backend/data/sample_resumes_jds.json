@@ -1,0 +1,26 @@
+{
+  "samples": [
+    {
+      "id": "full_stack_web",
+      "role": "Full Stack Developer",
+      "resume_text": "Experienced Full Stack Engineer with 4 years building scalable web applications. Proficient in Python, JavaScript, TypeScript, React, Node.js, and Express.js. Extensive background designing relational databases with PostgreSQL and MySQL, as well as NoSQL document stores with MongoDB. Hands-on deployment experience using Docker, CI/CD with GitHub Actions, and cloud hosting on AWS EC2 and S3. Strong advocate for test-driven development, Agile methodologies, and collaborative code reviews with Git.",
+      "jd_text": "We are seeking a Full Stack Developer to build modern web solutions. Required skills include Python, React, TypeScript, Node.js, Docker, and PostgreSQL. Experience with AWS cloud infrastructure, microservices architecture, and CI/CD pipelines is highly desirable. Candidates should possess strong problem-solving skills and familiarity with Git and Agile workflows.",
+      "ground_truth_skills": ["Python", "JavaScript", "TypeScript", "React", "Node.js", "Express.js", "PostgreSQL", "MySQL", "MongoDB", "Docker", "CI/CD", "AWS", "Git", "Agile"]
+    },
+    {
+      "id": "ml_engineer",
+      "role": "Machine Learning Engineer",
+      "resume_text": "Data Scientist and Machine Learning practitioner with deep expertise in Python, PyTorch, TensorFlow, and scikit-learn. Developed predictive models, NLP text classifiers, and deep neural networks for customer churn and recommendation systems. Proficient in Pandas, NumPy, and SQL for ETL pipelines. Experienced with Docker containerization, REST API deployment using FastAPI, and version control with Git.",
+      "jd_text": "Looking for a Machine Learning Engineer with proven experience in Deep Learning, NLP, Python, PyTorch, and scikit-learn. Must have experience building data pipelines with Pandas, NumPy, and SQL. Familiarity with FastAPI, Docker, and AWS cloud deployment is preferred. Advanced understanding of transformer models, vector embeddings, and mathematical optimization.",
+      "ground_truth_skills": ["Python", "PyTorch", "TensorFlow", "scikit-learn", "Machine Learning", "Deep Learning", "NLP", "Pandas", "NumPy", "SQL", "Docker", "FastAPI", "Git"]
+    },
+    {
+      "id": "devops_cloud",
+      "role": "DevOps & Cloud Engineer",
+      "resume_text": "DevOps specialist with 3 years administering cloud infrastructure. Strong background in Linux, Bash scripting, Docker containers, Kubernetes cluster management, and Terraform infrastructure as code. Automated continuous integration and continuous deployment (CI/CD) pipelines with Jenkins and GitLab. Monitored distributed microservices and managed cloud workloads on AWS and Google Cloud.",
+      "jd_text": "Seeking a Cloud DevOps Engineer proficient in Kubernetes, Docker, Terraform, AWS, and Linux. Responsibilities include building automated CI/CD pipelines, administering cloud infrastructure, and writing automation scripts in Bash or Python. Experience with Git and microservices is required.",
+      "ground_truth_skills": ["DevOps", "Linux", "Bash", "Docker", "Kubernetes", "Terraform", "CI/CD", "Jenkins", "AWS", "Google Cloud", "Microservices"]
+    }
+  ]
+}
+

@@ -1,0 +1,184 @@
+{
+  "metadata": {
+    "name": "SkillGapAI Technical Skill NER Dataset (CSE472)",
+    "description": "Annotated token-level dataset with BIO labeling for Technical Skill Named Entity Recognition (Unit V).",
+    "tag_scheme": ["O", "B-SKILL", "I-SKILL"],
+    "version": "1.1.0"
+  },
+  "train": [
+    {
+      "id": "train_01",
+      "tokens": ["Developed", "a", "scalable", "web", "service", "using", "Python", "and", "FastAPI", "."],
+      "tags": ["O", "O", "O", "O", "O", "O", "B-SKILL", "O", "B-SKILL", "O"]
+    },
+    {
+      "id": "train_02",
+      "tokens": ["Implemented", "predictive", "models", "with", "scikit-learn", "and", "TensorFlow", "for", "fraud", "detection", "."],
+      "tags": ["O", "O", "O", "O", "B-SKILL", "O", "B-SKILL", "O", "O", "O", "O"]
+    },
+    {
+      "id": "train_03",
+      "tokens": ["Engineered", "containerized", "microservices", "with", "Docker", "and", "deployed", "on", "Kubernetes", "."],
+      "tags": ["O", "O", "O", "O", "B-SKILL", "O", "O", "O", "B-SKILL", "O"]
+    },
+    {
+      "id": "train_04",
+      "tokens": ["Strong", "proficiency", "in", "C++", "and", "object-oriented", "design", "patterns", "."],
+      "tags": ["O", "O", "O", "B-SKILL", "O", "O", "O", "O", "O"]
+    },
+    {
+      "id": "train_05",
+      "tokens": ["Built", "single", "page", "applications", "using", "React", "and", "TypeScript", "."],
+      "tags": ["O", "O", "O", "O", "O", "B-SKILL", "O", "B-SKILL", "O"]
+    },
+    {
+      "id": "train_06",
+      "tokens": ["Optimized", "complex", "queries", "in", "PostgreSQL", "and", "MongoDB", "databases", "."],
+      "tags": ["O", "O", "O", "O", "B-SKILL", "O", "B-SKILL", "O", "O"]
+    },
+    {
+      "id": "train_07",
+      "tokens": ["Automated", "CI/CD", "pipelines", "using", "Jenkins", "and", "GitHub", "Actions", "."],
+      "tags": ["O", "B-SKILL", "O", "O", "B-SKILL", "O", "B-SKILL", "I-SKILL", "O"]
+    },
+    {
+      "id": "train_08",
+      "tokens": ["Configured", "cloud", "infrastructure", "on", "AWS", "using", "Terraform", "scripts", "."],
+      "tags": ["O", "O", "O", "O", "B-SKILL", "O", "B-SKILL", "O", "O"]
+    },
+    {
+      "id": "train_09",
+      "tokens": ["Experience", "in", "Machine", "Learning", "and", "Natural", "Language", "Processing", "."],
+      "tags": ["O", "O", "B-SKILL", "I-SKILL", "O", "B-SKILL", "I-SKILL", "I-SKILL", "O"]
+    },
+    {
+      "id": "train_10",
+      "tokens": ["Backend", "development", "with", "Node.js", ",", "Express.js", ",", "and", "Redis", "."],
+      "tags": ["O", "O", "O", "B-SKILL", "O", "B-SKILL", "O", "O", "B-SKILL", "O"]
+    },
+    {
+      "id": "train_11",
+      "tokens": ["Utilized", "Apache", "Spark", "and", "Hadoop", "for", "distributed", "data", "processing", "."],
+      "tags": ["O", "B-SKILL", "I-SKILL", "O", "B-SKILL", "O", "O", "O", "O", "O"]
+    },
+    {
+      "id": "train_12",
+      "tokens": ["Created", "cross-platform", "mobile", "applications", "with", "Flutter", "and", "Dart", "."],
+      "tags": ["O", "O", "O", "O", "O", "B-SKILL", "O", "B-SKILL", "O"]
+    },
+    {
+      "id": "train_13",
+      "tokens": ["Contact", ":", "anitmore116@gmail.com", "|", "Phone", ":", "8010725929", "|", "Solapur", "."],
+      "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]
+    },
+    {
+      "id": "train_14",
+      "tokens": ["Candidate", "Name", ":", "Anit", "More", "|", "LinkedIn", ":", "linkedin.com/in/anitmore", "."],
+      "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O"]
+    },
+    {
+      "id": "train_15",
+      "tokens": ["Completed", "Secondary", "Education", "at", "Navodaya", "Madhyamik", "Vidyalaya", "."],
+      "tags": ["O", "O", "O", "O", "O", "O", "O", "O"]
+    },
+    {
+      "id": "train_16",
+      "tokens": ["Software", "Engineer", "at", "TechCorp", "from", "Apr", "2021", "to", "Aug", "2023", "in", "Pune", "."],
+      "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]
+    },
+    {
+      "id": "train_17",
+      "tokens": ["Technical", "Skills", ":", "Python", ",", "Java", ",", "Docker", ",", "and", "Kubernetes", "."],
+      "tags": ["O", "O", "O", "B-SKILL", "O", "B-SKILL", "O", "B-SKILL", "O", "O", "B-SKILL", "O"]
+    },
+    {
+      "id": "train_18",
+      "tokens": ["Designed", "REST", "APIs", "using", "Spring", "Boot", "and", "PostgreSQL", "."],
+      "tags": ["O", "B-SKILL", "I-SKILL", "O", "B-SKILL", "I-SKILL", "O", "B-SKILL", "O"]
+    },
+    {
+      "id": "train_19",
+      "tokens": ["Deployed", "applications", "on", "Google", "Cloud", "Platform", "and", "AWS", "."],
+      "tags": ["O", "O", "O", "B-SKILL", "I-SKILL", "I-SKILL", "O", "B-SKILL", "O"]
+    },
+    {
+      "id": "train_20",
+      "tokens": ["Built", "mobile", "frontend", "with", "React", "Native", "and", "Redux", "."],
+      "tags": ["O", "O", "O", "O", "B-SKILL", "I-SKILL", "O", "B-SKILL", "O"]
+    }
+  ],
+  "validation": [
+    {
+      "id": "val_01",
+      "tokens": ["Designed", "RESTful", "APIs", "using", "Flask", "and", "SQLAlchemy", "."],
+      "tags": ["O", "B-SKILL", "I-SKILL", "O", "B-SKILL", "O", "B-SKILL", "O"]
+    },
+    {
+      "id": "val_02",
+      "tokens": ["Hands-on", "experience", "with", "PyTorch", "and", "Deep", "Learning", "architectures", "."],
+      "tags": ["O", "O", "O", "B-SKILL", "O", "B-SKILL", "I-SKILL", "O", "O"]
+    },
+    {
+      "id": "val_03",
+      "tokens": ["Maintained", "relational", "database", "schemas", "in", "MySQL", "."],
+      "tags": ["O", "O", "O", "O", "O", "B-SKILL", "O"]
+    },
+    {
+      "id": "val_04",
+      "tokens": ["Contact", "email", ":", "test.user@gmail.com", "|", "Phone", ":", "9123456780", "."],
+      "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O"]
+    },
+    {
+      "id": "val_05",
+      "tokens": ["Graduated", "with", "BTech", "from", "Solapur", "Engineering", "College", "."],
+      "tags": ["O", "O", "O", "O", "O", "O", "O", "O"]
+    }
+  ],
+  "test": [
+    {
+      "id": "test_01",
+      "tokens": ["I", "developed", "a", "backend", "application", "using", "Python", ",", "Flask", ",", "PostgreSQL", "and", "AWS", "."],
+      "tags": ["O", "O", "O", "O", "O", "O", "B-SKILL", "O", "B-SKILL", "O", "B-SKILL", "O", "B-SKILL", "O"]
+    },
+    {
+      "id": "test_02",
+      "tokens": ["Proficient", "in", "Java", ",", "Spring", "Boot", ",", "and", "Docker", "."],
+      "tags": ["O", "O", "B-SKILL", "O", "B-SKILL", "I-SKILL", "O", "O", "B-SKILL", "O"]
+    },
+    {
+      "id": "test_03",
+      "tokens": ["Researched", "BERT", "and", "Transformer", "models", "for", "sentiment", "classification", "."],
+      "tags": ["O", "B-SKILL", "O", "B-SKILL", "O", "O", "O", "O", "O"]
+    },
+    {
+      "id": "test_04",
+      "tokens": ["Managed", "code", "repositories", "with", "Git", "and", "GitHub", "."],
+      "tags": ["O", "O", "O", "O", "B-SKILL", "O", "B-SKILL", "O"]
+    },
+    {
+      "id": "test_05",
+      "tokens": ["Implemented", "data", "visualization", "dashboards", "with", "Pandas", "and", "Matplotlib", "."],
+      "tags": ["O", "O", "O", "O", "O", "B-SKILL", "O", "B-SKILL", "O"]
+    },
+    {
+      "id": "test_06",
+      "tokens": ["Email", ":", "anitmore116@gmail.com", "|", "8010725929", "|", "Solapur", "|", "LinkedIn", ":", "linkedin.com/in/anitmore", "."],
+      "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]
+    },
+    {
+      "id": "test_07",
+      "tokens": ["Studied", "at", "Navodaya", "Madhyamik", "Vidyalaya", "from", "Apr", "2018", "to", "Mar", "2020", "."],
+      "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]
+    },
+    {
+      "id": "test_08",
+      "tokens": ["Architected", "scalable", "microservices", "with", "Spring", "Boot", ",", "Docker", ",", "and", "Kubernetes", "."],
+      "tags": ["O", "O", "B-SKILL", "O", "B-SKILL", "I-SKILL", "O", "B-SKILL", "O", "O", "B-SKILL", "O"]
+    },
+    {
+      "id": "test_09",
+      "tokens": ["Extensive", "background", "in", "Machine", "Learning", "and", "scikit-learn", "pipelines", "."],
+      "tags": ["O", "O", "O", "B-SKILL", "I-SKILL", "O", "B-SKILL", "O", "O"]
+    }
+  ]
+}

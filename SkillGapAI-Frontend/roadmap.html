@@ -201,7 +201,13 @@
                 <a href="history.html" class="side-link">
                     <span class="s-icon">🕒</span> <span class="s-text">History</span>
                 </a>
-                <a href="about.html" class="side-link">
+                                <a href="nlp-lab.html" class="side-link">
+                    <span class="s-icon">🔬</span> <span class="s-text">NLP Lab</span>
+                </a>
+                <a href="methodology.html" class="side-link">
+                    <span class="s-icon">🎓</span> <span class="s-text">Methodology</span>
+                </a>
+<a href="about.html" class="side-link">
                     <span class="s-icon">ℹ️</span> <span class="s-text">About</span>
                 </a>
                 <a href="settings.html" class="side-link">
@@ -249,12 +255,29 @@
     <script src="js/theme-toggle.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            const activeStr = sessionStorage.getItem('skillgap_active_analysis') || localStorage.getItem('skillgap_active_analysis');
             const historyData = JSON.parse(localStorage.getItem('skillgap_history') || '[]');
             const grid = document.getElementById('roadmapGrid');
 
-            if (historyData.length > 0) {
-                const latest = historyData[0]; // Latest unshifted to front
-                const recs = latest.recommendations || [];
+            let recs = [];
+            let sourceName = '';
+
+            if (activeStr) {
+                try {
+                    const active = JSON.parse(activeStr);
+                    if (active && active.results && active.results.recommendations) {
+                        recs = active.results.recommendations;
+                        sourceName = active.resumeFileName ? ` (for ${active.resumeFileName})` : '';
+                    }
+                } catch (e) {}
+            }
+
+            if (recs.length === 0 && historyData.length > 0) {
+                const latest = historyData[0];
+                recs = latest.recommendations || [];
+            }
+
+            if (recs && recs.length > 0) {
 
                 if (recs.length > 0) {
                     grid.innerHTML = ''; // clear placeholder

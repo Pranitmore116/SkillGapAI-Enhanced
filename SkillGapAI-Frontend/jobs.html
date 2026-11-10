@@ -177,7 +177,13 @@
                 <a href="history.html" class="side-link">
                     <span class="s-icon">🕒</span> <span class="s-text">History</span>
                 </a>
-                <a href="about.html" class="side-link">
+                                <a href="nlp-lab.html" class="side-link">
+                    <span class="s-icon">🔬</span> <span class="s-text">NLP Lab</span>
+                </a>
+                <a href="methodology.html" class="side-link">
+                    <span class="s-icon">🎓</span> <span class="s-text">Methodology</span>
+                </a>
+<a href="about.html" class="side-link">
                     <span class="s-icon">ℹ️</span> <span class="s-text">About</span>
                 </a>
                 <a href="settings.html" class="side-link">
@@ -287,10 +293,15 @@
     <script src="js/theme-toggle.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            const activeStr = sessionStorage.getItem('skillgap_active_analysis') || localStorage.getItem('skillgap_active_analysis');
+            let activeData = null;
+            if (activeStr) {
+                try { activeData = JSON.parse(activeStr); } catch (e) {}
+            }
             const history = JSON.parse(localStorage.getItem('skillgap_history') || '[]');
-            if (history.length === 0) return;
+            if (!activeData && history.length === 0) return;
 
-            let cleanTitle = (history[0].role || 'Software Engineer')
+            let cleanTitle = (activeData?.jdFileName || history[0]?.role || 'Software Engineer')
                 .replace(/\.(pdf|txt|docx)$/i, '')
                 .replace(/[_-]/g, ' ')
                 .trim();
@@ -299,8 +310,12 @@
             if (cleanTitle.length > 30) cleanTitle = 'Software Engineer';
             
             const baseTitle = cleanTitle;
-            const matched = history[0].matched || ['React', 'Node.js', 'Python'];
-            const missing = history[0].missing || ['Docker', 'AWS', 'Kubernetes'];
+            const matched = (activeData?.results?.matched || []).map(s => s.name || s).length > 0
+                ? (activeData.results.matched || []).map(s => s.name || s)
+                : (history[0]?.matched || ['React', 'Node.js', 'Python']);
+            const missing = (activeData?.results?.missing || []).map(s => s.name || s).length > 0
+                ? (activeData.results.missing || []).map(s => s.name || s)
+                : (history[0]?.missing || ['Docker', 'AWS', 'Kubernetes']);
 
             const renderTags = (m, x) => {
                 let html = '';
@@ -309,7 +324,7 @@
                 return html;
             };
 
-            const match1 = history[0].matchPct || 88;
+            const match1 = activeData?.results?.matchPct || history[0]?.matchPct || 88;
             const match2 = Math.max(10, match1 - 12);
 
             const grid = document.getElementById('jobsGrid');

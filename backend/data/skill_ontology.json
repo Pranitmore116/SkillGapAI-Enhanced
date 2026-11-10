@@ -1,0 +1,221 @@
+{
+  "skills": [
+    {
+      "name": "Python",
+      "category": "Languages",
+      "aliases": ["python", "python3", "py"],
+      "related": ["Django", "Flask", "FastAPI", "Pandas", "NumPy", "scikit-learn", "Machine Learning", "Data Analysis"]
+    },
+    {
+      "name": "JavaScript",
+      "category": "Languages",
+      "aliases": ["javascript", "js", "ecmascript"],
+      "related": ["TypeScript", "React", "Node.js", "Express.js", "Vue.js", "Next.js", "HTML5", "CSS3"]
+    },
+    {
+      "name": "TypeScript",
+      "category": "Languages",
+      "aliases": ["typescript", "ts"],
+      "related": ["JavaScript", "React", "Node.js", "Angular", "Next.js"]
+    },
+    {
+      "name": "Java",
+      "category": "Languages",
+      "aliases": ["java", "core java", "j2ee"],
+      "related": ["Spring Boot", "Kotlin", "Microservices", "REST API", "Hibernate"]
+    },
+    {
+      "name": "C++",
+      "category": "Languages",
+      "aliases": ["c++", "cpp"],
+      "related": ["C", "C#", "Algorithms", "Data Structures", "Embedded Systems"]
+    },
+    {
+      "name": "C#",
+      "category": "Languages",
+      "aliases": ["c#", "csharp", ".net c#"],
+      "related": [".NET", "ASP.NET", "Entity Framework", "Azure", "Unity"]
+    },
+    {
+      "name": "Go",
+      "category": "Languages",
+      "aliases": ["go", "golang"],
+      "related": ["Kubernetes", "Docker", "Microservices", "Cloud", "Distributed Systems"]
+    },
+    {
+      "name": "Rust",
+      "category": "Languages",
+      "aliases": ["rust", "rust-lang"],
+      "related": ["Systems Programming", "WebAssembly", "C++", "Concurrency"]
+    },
+    {
+      "name": "SQL",
+      "category": "Databases",
+      "aliases": ["sql", "structured query language"],
+      "related": ["PostgreSQL", "MySQL", "SQLite", "Database Design", "Indexing", "Query Optimization"]
+    },
+    {
+      "name": "PostgreSQL",
+      "category": "Databases",
+      "aliases": ["postgresql", "postgres", "psql"],
+      "related": ["SQL", "MySQL", "Relational Databases", "Backend"]
+    },
+    {
+      "name": "MongoDB",
+      "category": "Databases",
+      "aliases": ["mongodb", "mongo", "nosql"],
+      "related": ["NoSQL", "Document Database", "Express.js", "Node.js"]
+    },
+    {
+      "name": "Redis",
+      "category": "Databases",
+      "aliases": ["redis", "in-memory database", "cache"],
+      "related": ["Caching", "Key-Value Store", "Backend", "PubSub"]
+    },
+    {
+      "name": "React",
+      "category": "Frontend",
+      "aliases": ["react", "react.js", "reactjs"],
+      "related": ["JavaScript", "TypeScript", "Redux", "Next.js", "Frontend", "HTML5", "CSS3"]
+    },
+    {
+      "name": "Angular",
+      "category": "Frontend",
+      "aliases": ["angular", "angularjs", "angular 2+"],
+      "related": ["TypeScript", "RxJS", "Frontend", "Single Page Applications"]
+    },
+    {
+      "name": "Vue.js",
+      "category": "Frontend",
+      "aliases": ["vue", "vue.js", "vuejs"],
+      "related": ["JavaScript", "Frontend", "Vuex", "Nuxt.js"]
+    },
+    {
+      "name": "Node.js",
+      "category": "Backend",
+      "aliases": ["node.js", "nodejs", "node"],
+      "related": ["Express.js", "JavaScript", "REST API", "Backend", "Microservices"]
+    },
+    {
+      "name": "Express.js",
+      "category": "Backend",
+      "aliases": ["express.js", "expressjs", "express"],
+      "related": ["Node.js", "REST API", "Backend", "MongoDB"]
+    },
+    {
+      "name": "FastAPI",
+      "category": "Backend",
+      "aliases": ["fastapi", "fast api"],
+      "related": ["Python", "REST API", "Pydantic", "AsyncIO", "Backend"]
+    },
+    {
+      "name": "Flask",
+      "category": "Backend",
+      "aliases": ["flask", "flask framework"],
+      "related": ["Python", "REST API", "Backend", "Web Development"]
+    },
+    {
+      "name": "Django",
+      "category": "Backend",
+      "aliases": ["django", "django framework"],
+      "related": ["Python", "ORM", "REST API", "Backend"]
+    },
+    {
+      "name": "Spring Boot",
+      "category": "Backend",
+      "aliases": ["spring boot", "spring", "spring framework"],
+      "related": ["Java", "Microservices", "REST API", "Backend", "Hibernate"]
+    },
+    {
+      "name": "Docker",
+      "category": "Cloud & DevOps",
+      "aliases": ["docker", "containerization", "containers"],
+      "related": ["Kubernetes", "CI/CD", "DevOps", "Microservices", "Cloud"]
+    },
+    {
+      "name": "Kubernetes",
+      "category": "Cloud & DevOps",
+      "aliases": ["kubernetes", "k8s"],
+      "related": ["Docker", "Container Orchestration", "DevOps", "Cloud", "Helm"]
+    },
+    {
+      "name": "AWS",
+      "category": "Cloud & DevOps",
+      "aliases": ["aws", "amazon web services"],
+      "related": ["Cloud Computing", "EC2", "S3", "Lambda", "DevOps"]
+    },
+    {
+      "name": "Azure",
+      "category": "Cloud & DevOps",
+      "aliases": ["azure", "microsoft azure"],
+      "related": ["Cloud Computing", "Active Directory", ".NET", "DevOps"]
+    },
+    {
+      "name": "Google Cloud",
+      "category": "Cloud & DevOps",
+      "aliases": ["google cloud", "gcp", "google cloud platform"],
+      "related": ["Cloud Computing", "BigQuery", "Kubernetes Engine", "Cloud Storage"]
+    },
+    {
+      "name": "CI/CD",
+      "category": "Cloud & DevOps",
+      "aliases": ["ci/cd", "continuous integration", "continuous deployment"],
+      "related": ["Jenkins", "GitHub Actions", "GitLab CI", "DevOps", "Automation"]
+    },
+    {
+      "name": "Git",
+      "category": "Tools",
+      "aliases": ["git", "version control", "vcs"],
+      "related": ["GitHub", "GitLab", "Bitbucket", "Version Control"]
+    },
+    {
+      "name": "Machine Learning",
+      "category": "Data & AI",
+      "aliases": ["machine learning", "ml", "statistical learning"],
+      "related": ["Deep Learning", "scikit-learn", "Predictive Analytics", "Data Science", "Python", "Artificial Intelligence"]
+    },
+    {
+      "name": "Deep Learning",
+      "category": "Data & AI",
+      "aliases": ["deep learning", "neural networks", "dl"],
+      "related": ["Machine Learning", "TensorFlow", "PyTorch", "Transformers", "NLP", "Computer Vision"]
+    },
+    {
+      "name": "NLP",
+      "category": "Data & AI",
+      "aliases": ["nlp", "natural language processing", "text processing"],
+      "related": ["Transformers", "BERT", "Word2Vec", "GloVe", "Tokenization", "TF-IDF", "Machine Learning"]
+    },
+    {
+      "name": "PyTorch",
+      "category": "Data & AI",
+      "aliases": ["pytorch", "torch"],
+      "related": ["Deep Learning", "Neural Networks", "Transformers", "Python", "Machine Learning"]
+    },
+    {
+      "name": "TensorFlow",
+      "category": "Data & AI",
+      "aliases": ["tensorflow", "tf", "keras"],
+      "related": ["Deep Learning", "Neural Networks", "Machine Learning", "Python"]
+    },
+    {
+      "name": "scikit-learn",
+      "category": "Data & AI",
+      "aliases": ["scikit-learn", "sklearn"],
+      "related": ["Machine Learning", "Regression", "Classification", "Clustering", "Python"]
+    },
+    {
+      "name": "Pandas",
+      "category": "Data & AI",
+      "aliases": ["pandas"],
+      "related": ["Data Analysis", "Python", "NumPy", "Data Cleaning", "Dataframes"]
+    },
+    {
+      "name": "NumPy",
+      "category": "Data & AI",
+      "aliases": ["numpy"],
+      "related": ["Scientific Computing", "Linear Algebra", "Python", "Pandas", "Arrays"]
+    }
+  ]
+}
+
