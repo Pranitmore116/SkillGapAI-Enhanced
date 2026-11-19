@@ -69,3 +69,4 @@ yarn.lock
 # Temporary development files
 /scratch/
 
+.vercel
