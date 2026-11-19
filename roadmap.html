@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillGapAI — Learning Roadmap</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/features.css">
+    <script src="js/theme-loader.js"></script>
+    <style>
+        .page-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header-box {
+            margin-bottom: 2rem;
+        }
+
+        .roadmap-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .path-card {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--accent);
+            border-radius: var(--radius-xl);
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .path-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .path-card.high-priority {
+            border-left-color: var(--danger);
+        }
+
+        .path-card.medium-priority {
+            border-left-color: var(--warning);
+        }
+
+        .path-card.low-priority {
+            border-left-color: var(--success);
+        }
+
+        .path-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .path-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .path-category {
+            font-size: 0.9rem;
+            color: var(--t2);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .path-duration {
+            background: var(--bg3);
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent-lt);
+        }
+
+        .module-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 1.5rem;
+            border-top: 1px dashed var(--border);
+            padding-top: 1.5rem;
+        }
+
+        .module-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+        }
+
+        .module-check {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: all 0.3s;
+        }
+
+        .module-check.done {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+
+        .module-check.done::after {
+            content: '✓';
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .module-content {
+            flex: 1;
+        }
+
+        .module-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            font-size: 1rem;
+        }
+
+        .module-desc {
+            font-size: 0.85rem;
+            color: var(--t3);
+        }
+
+        .resource-link {
+            color: var(--accent-lt);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .resource-link:hover {
+            text-decoration: underline;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 8px;
+            background: var(--bg3);
+            border-radius: 10px;
+            margin-top: 1rem;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--accent-lt));
+            transition: width 0.5s;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app-layout">
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                    </svg>
+                </div>
+                <span class="logo-text" id="logo-text-full">SkillGap<span class="logo-accent">AI</span></span>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="index.html" class="side-link">
+                    <span class="s-icon">🏠</span> <span class="s-text">Home</span>
+                </a>
+                <a href="dashboard.html" class="side-link">
+                    <span class="s-icon">📊</span> <span class="s-text">Overview</span>
+                </a>
+                <a href="roadmap.html" class="side-link active">
+                    <span class="s-icon">🗺️</span> <span class="s-text">Learning Paths</span>
+                </a>
+                <a href="jobs.html" class="side-link">
+                    <span class="s-icon">💼</span> <span class="s-text">Job Matches</span>
+                </a>
+                <a href="compare.html" class="side-link">
+                    <span class="s-icon">⚖️</span> <span class="s-text">Compare</span>
+                </a>
+                <a href="history.html" class="side-link">
+                    <span class="s-icon">🕒</span> <span class="s-text">History</span>
+                </a>
+                                <a href="nlp-lab.html" class="side-link">
+                    <span class="s-icon">🔬</span> <span class="s-text">NLP Lab</span>
+                </a>
+                <a href="methodology.html" class="side-link">
+                    <span class="s-icon">🎓</span> <span class="s-text">Methodology</span>
+                </a>
+<a href="about.html" class="side-link">
+                    <span class="s-icon">ℹ️</span> <span class="s-text">About</span>
+                </a>
+                <a href="settings.html" class="side-link">
+                    <span class="s-icon">⚙️</span> <span class="s-text">Settings</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="nav-pill" style="margin-bottom: 1rem; width: 100%; justify-content: center;">
+                    <span class="pulse-dot"></span>
+                    <span class="s-text">NLP Active</span>
+                </div>
+                <button id="theme-toggle-btn" class="btn-ghost side-btn" title="Toggle Theme"
+                    style="width: 100%; margin-bottom: 0.5rem; justify-content: center; display: flex;">
+                    <span class="icon-moon">🌙</span>
+                    <span class="icon-sun" style="display:none;">☀️</span>
+                    <span class="s-text" style="margin-left: 0.5rem;">Theme</span>
+                </button>
+                <button class="btn-ghost side-btn" id="logout-btn" style="width: 100%; justify-content: center;">🚪
+                    <span class="s-text">Logout</span></button>
+            </div>
+        </aside>
+
+        <main class="app-main">
+            <div class="page-container">
+                <header class="header-box">
+                    <h1 style="font-size: 2.5rem; font-weight: 800;">📚 Personalized Learning Recommendations</h1>
+                    <p style="color: var(--t2);">Personalized curriculum generated from your latest skill gap analysis.
+                    </p>
+                </header>
+
+                <div class="recs-grid" id="roadmapGrid">
+                    <!-- Dynamic Roadmap generation -->
+                    <div class="path-card high-priority" style="text-align: center; border-left-color: var(--border);">
+                        <p style="color: var(--t3); margin: 2rem 0; font-size: 1.1rem;">Run a resume analysis to
+                            generate your AI-powered learning roadmap.</p>
+                        <a href="index.html" class="btn-analyze"
+                            style="text-decoration: none; display: inline-block;">Go to Analyzer</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/theme-toggle.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const activeStr = sessionStorage.getItem('skillgap_active_analysis') || localStorage.getItem('skillgap_active_analysis');
+            const historyData = JSON.parse(localStorage.getItem('skillgap_history') || '[]');
+            const grid = document.getElementById('roadmapGrid');
+
+            let recs = [];
+            let sourceName = '';
+
+            if (activeStr) {
+                try {
+                    const active = JSON.parse(activeStr);
+                    if (active && active.results && active.results.recommendations) {
+                        recs = active.results.recommendations;
+                        sourceName = active.resumeFileName ? ` (for ${active.resumeFileName})` : '';
+                    }
+                } catch (e) {}
+            }
+
+            if (recs.length === 0 && historyData.length > 0) {
+                const latest = historyData[0];
+                recs = latest.recommendations || [];
+            }
+
+            if (recs && recs.length > 0) {
+
+                if (recs.length > 0) {
+                    grid.innerHTML = ''; // clear placeholder
+                    
+                    grid.innerHTML = recs.map(rec => {
+                        const name = rec.skill || rec.name || 'Skill';
+                        const cat = rec.category || 'Technical';
+                        return `
+                        <div class="rec-card">
+                            <h4 class="rec-title">${name}</h4>
+                            <div class="rec-cat" style="font-size:.8rem;color:var(--accent-lt);margin-bottom:.8rem;text-transform:uppercase;letter-spacing:.05rem">${cat}</div>
+                            <p class="rec-desc">${rec.advice || ''}</p>
+                            <a class="rec-btn" href="${rec.url || '#'}" target="_blank" rel="noopener">Learn on ${rec.platform || 'Coursera'} →</a>
+                        </div>`;
+                    }).join('');
+                } else if (recs.length === 0) {
+                    grid.innerHTML = '<p class="empty-note">🎉 No significant gaps found!</p>';
+                }
+            } else {
+                // Keep the placeholder if no history
+                grid.innerHTML = `
+                    <div class="path-card high-priority" style="text-align: center; border-left-color: var(--border);">
+                        <p style="color: var(--t3); margin: 2rem 0; font-size: 1.1rem;">Run a resume analysis to generate your AI-powered learning roadmap.</p>
+                        <a href="index.html" class="btn-analyze" style="text-decoration: none; display: inline-block;">Go to Analyzer</a>
+                    </div>
+                `;
+            }
+        });
+    </script>
+</body>
+
+</html>

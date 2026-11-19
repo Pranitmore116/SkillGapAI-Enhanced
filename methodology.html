@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SkillGap AI — Methodology & Architecture</title>
+    <meta name="description"
+        content="Technical methodology, mathematical formulations, and topic architecture for Deep Learning for Natural Language Processing." />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/features.css" />
+    <!-- KaTeX for crisp mathematical formula rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
+    <script src="js/theme-loader.js"></script>
+    <style>
+        .doc-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .doc-hero {
+            background: linear-gradient(135deg, rgba(79, 70, 229, 0.15), rgba(219, 39, 119, 0.1));
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .doc-section {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .doc-section h2 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--t1);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .doc-section h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent-lt);
+            margin: 1.5rem 0 0.8rem;
+        }
+
+        .doc-section p,
+        .doc-section li {
+            color: var(--t2);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        .doc-section ul {
+            padding-left: 1.5rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .math-card {
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--accent);
+            border-radius: var(--radius-sm);
+            padding: 1.2rem 1.6rem;
+            margin: 1.2rem 0;
+            font-size: 1.05rem;
+            color: var(--t1);
+            overflow-x: auto;
+        }
+
+        .syllabus-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            margin: 1.5rem 0;
+        }
+
+        .syllabus-table th {
+            text-align: left;
+            padding: 12px 16px;
+            background: var(--bg3);
+            color: var(--t3);
+            font-weight: 700;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .syllabus-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            color: var(--t2);
+        }
+
+        .syllabus-badge {
+            background: rgba(94, 106, 210, 0.18);
+            color: var(--accent-lt);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app-layout">
+        <!-- ═══════════════════════════════════════════
+             SIDEBAR NAV
+        ════════════════════════════════════════════ -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                    </svg>
+                </div>
+                <span class="logo-text" id="logo-text-full">SkillGap<span class="logo-accent">AI</span></span>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="index.html" class="side-link">
+                    <span class="s-icon">🏠</span> <span class="s-text">Home</span>
+                </a>
+                <a href="dashboard.html" class="side-link">
+                    <span class="s-icon">📊</span> <span class="s-text">Overview</span>
+                </a>
+                <a href="roadmap.html" class="side-link">
+                    <span class="s-icon">🗺️</span> <span class="s-text">Learning Paths</span>
+                </a>
+                <a href="jobs.html" class="side-link">
+                    <span class="s-icon">💼</span> <span class="s-text">Job Matches</span>
+                </a>
+                <a href="compare.html" class="side-link">
+                    <span class="s-icon">⚖️</span> <span class="s-text">Compare</span>
+                </a>
+                <a href="history.html" class="side-link">
+                    <span class="s-icon">🕒</span> <span class="s-text">History</span>
+                </a>
+                <a href="nlp-lab.html" class="side-link">
+                    <span class="s-icon">🔬</span> <span class="s-text">NLP Lab</span>
+                </a>
+                <a href="methodology.html" class="side-link active">
+                    <span class="s-icon">🎓</span> <span class="s-text">Methodology</span>
+                </a>
+                <a href="about.html" class="side-link">
+                    <span class="s-icon">ℹ️</span> <span class="s-text">About</span>
+                </a>
+                <a href="settings.html" class="side-link">
+                    <span class="s-icon">⚙️</span> <span class="s-text">Settings</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="nav-pill" style="margin-bottom: 1rem; width: 100%; justify-content: center;">
+                    <span class="pulse-dot"></span>
+                    <span class="s-text">NLP Active</span>
+                </div>
+                <button id="theme-toggle-btn" class="btn-ghost side-btn" title="Toggle Theme"
+                    style="width: 100%; margin-bottom: 0.5rem; justify-content: center; display: flex;">
+                    <span class="icon-moon">🌙</span>
+                    <span class="icon-sun" style="display:none;">☀️</span>
+                    <span class="s-text" style="margin-left: 0.5rem;">Theme</span>
+                </button>
+                <button class="btn-ghost side-btn" id="logout-btn" style="width: 100%; justify-content: center;">🚪
+                    <span class="s-text">Logout</span></button>
+            </div>
+        </aside>
+
+        <!-- ═══════════════════════════════════════════
+             MAIN CONTENT
+        ════════════════════════════════════════════ -->
+        <main class="app-main" style="padding: 2rem 3rem;">
+            <div class="doc-container">
+
+                <!-- HERO -->
+                <div class="doc-hero">
+                    <span style="background: var(--accent-gradient); color: white; padding: 4px 12px; border-radius: 999px; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase;">
+                        Course Technical Documentation
+                    </span>
+                    <h1 style="font-size: 2.3rem; font-weight: 900; margin-top: 0.6rem; color: var(--t1);">
+                        NLP Methodology & Mathematical Foundations
+                    </h1>
+                    <p style="color: var(--t2); font-size: 1rem; margin-top: 8px;">
+                        Technical documentation and mathematical formulations for <strong>Deep Learning for Natural Language Processing</strong>.
+                    </p>
+                    <div style="display: flex; gap: 12px; margin-top: 1.5rem;">
+                        <a href="nlp-lab.html" class="btn-primary" style="text-decoration:none; display:inline-flex; align-items:center; gap:8px;">
+                            <span>🔬 Open Interactive NLP Lab</span>
+                        </a>
+                        <a href="index.html" class="btn-ghost" style="text-decoration:none; display:inline-flex; align-items:center; gap:8px;">
+                            <span>🏠 Back to Analyzer</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- SYLLABUS MAPPING TABLE -->
+                <div class="doc-section">
+                    <h2><span>📋</span> Architecture & Topic Alignment Matrix</h2>
+                    <p>
+                        The following matrix establishes direct traceability between core natural language processing topic domains and their technical implementations inside the SkillGap AI software architecture.
+                    </p>
+
+                    <table class="syllabus-table">
+                        <thead>
+                            <tr>
+                                <th>Topic Domain</th>
+                                <th>Theoretical Topic</th>
+                                <th>Implementation in SkillGap AI</th>
+                                <th>Core Source File</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="syllabus-badge">Text Preprocessing</span></td>
+                                <td>Text Processing Pipeline & Morphology</td>
+                                <td>13-stage pipeline: Regex symbol preservation (C++, C#, .NET, Node.js, CI/CD), Porter stemmer, WordNet lemmatizer, token span tracking, n-grams.</td>
+                                <td><code>backend/nlp/preprocessing.py</code></td>
+                            </tr>
+                            <tr>
+                                <td><span class="syllabus-badge">Vector Space</span></td>
+                                <td>Bag-of-Words & TF-IDF Vector Spaces</td>
+                                <td>CountVectorizer BoW and TfidfVectorizer with sublinear scaling, L2 normalization, mathematical Cosine similarity, and joint term salience.</td>
+                                <td><code>backend/nlp/tfidf_engine.py</code><br><code>backend/nlp/bow_engine.py</code></td>
+                            </tr>
+                            <tr>
+                                <td><span class="syllabus-badge">Word Embeddings</span></td>
+                                <td>Word Embeddings & Vector Arithmetic</td>
+                                <td>Domain Word2Vec (CBOW & Skip-Gram) trained on resume corpora + Stanford GloVe embeddings. Vector analogy solver ($A - B + C \approx D$) and semantic skill similarity.</td>
+                                <td><code>backend/nlp/word2vec_engine.py</code><br><code>backend/nlp/glove_engine.py</code></td>
+                            </tr>
+                            <tr>
+                                <td><span class="syllabus-badge">Dimensionality Reduction</span></td>
+                                <td>Dimensionality Reduction & Visualization</td>
+                                <td>Principal Component Analysis (PCA) projecting high-dimensional dense embeddings to 2D $\mathbb{R}^2$ with cluster coordinates and explained variance ratios.</td>
+                                <td><code>backend/nlp/embedding_visualizer.py</code></td>
+                            </tr>
+                            <tr>
+                                <td><span class="syllabus-badge">Transformers</span></td>
+                                <td>Transformers & Contextual Representations</td>
+                                <td>Pretrained DistilBERT Transformer Encoder with 6 layers, 768 hidden units, and 12 self-attention heads for contextual token representations.</td>
+                                <td><code>backend/nlp/bert_extractor.py</code></td>
+                            </tr>
+                            <tr>
+                                <td><span class="syllabus-badge">Token Classification</span></td>
+                                <td>Named Entity Recognition (NER) & BIO Tagging</td>
+                                <td>Token classification head trained on gold-standard annotated skill dataset with BIO tags (<code>B-SKILL</code>, <code>I-SKILL</code>, <code>O</code>) and subword reassembly.</td>
+                                <td><code>backend/nlp/bert_extractor.py</code><br><code>backend/nlp/dataset_loader.py</code></td>
+                            </tr>
+                            <tr>
+                                <td><span class="syllabus-badge">Multimodal Ensemble</span></td>
+                                <td>Unified Multimodal Evaluation & Benchmarking</td>
+                                <td>Ensemble matching combining Rule-based, TF-IDF, Word2Vec, and BERT with transparent scoring formula and comprehensive evaluation metrics.</td>
+                                <td><code>backend/nlp/unified_matcher.py</code><br><code>backend/nlp/model_evaluation.py</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- SECTION 1: PREPROCESSING -->
+                <div class="doc-section">
+                    <h2><span>📑</span> Text Preprocessing Pipeline</h2>
+                    <p>
+                        In technical resume and job description analysis, conventional naive tokenization routines fail dramatically. Standard word-boundary regular expressions (e.g., <code>\w+</code> or <code>\bword\b</code>) destroy critical programming language identifiers such as <strong>C++</strong>, <strong>C#</strong>, <strong>.NET</strong>, <strong>Node.js</strong>, and <strong>CI/CD</strong>, stripping non-word symbols and converting <code>C++</code> into <code>c</code>, which then collides with common stopwords or abbreviations.
+                    </p>
+
+                    <h3>1. Symbol-Preserving Token Mapping</h3>
+                    <p>
+                        SkillGap AI addresses this through a two-phase tokenization strategy:
+                    </p>
+                    <ul>
+                        <li><strong>Protection Phase:</strong> High-risk technical patterns are identified via fixed-width lookaround regular expressions and mapped to unique alphanumeric placeholders (e.g., <code>c++</code> $\to$ <code>__TECH_CPP__</code>).</li>
+                        <li><strong>Standard Processing Phase:</strong> Lowercasing, whitespace normalization, and boundary tokenization execute safely without symbol corruption.</li>
+                        <li><strong>Restoration Phase:</strong> Encoded placeholders are restored back to canonical display strings, preserving exact character spans for downstream highlight mapping.</li>
+                    </ul>
+
+                    <h3>2. Morphological Normalization: Stemming vs. Lemmatization</h3>
+                    <p>
+                        The pipeline implements both algorithmic suffix stripping (Porter Stemmer) and morphological dictionary lookup (WordNet Lemmatizer):
+                    </p>
+                    <div class="math-card">
+                        $$\text{Stemming (Porter):} \quad \text{developments} \to \text{develop}, \quad \text{organizing} \to \text{organ}$$
+                        $$\text{Lemmatization (WordNet):} \quad \text{developments} \xrightarrow{\text{noun}} \text{development}, \quad \text{ran} \xrightarrow{\text{verb}} \text{run}$$
+                    </div>
+                    <p>
+                        <strong>Crucial Academic Rule:</strong> Neither stemming nor aggressive stopword removal is applied to canonical skill entities. For example, "Go" is preserved as a programming language rather than being discarded as an imperative verb.
+                    </p>
+                </div>
+
+                <!-- SECTION 2: TF-IDF & COSINE SIMILARITY -->
+                <div class="doc-section">
+                    <h2><span>📐</span> Bag-of-Words & TF-IDF Cosine Similarity</h2>
+                    <p>
+                        The lexical matching engine constructs vector space representations for candidate resumes ($D_{\text{res}}$) and job descriptions ($D_{\text{jd}}$).
+                    </p>
+
+                    <h3>1. Term Frequency & Inverse Document Frequency</h3>
+                    <p>
+                        To dampen the influence of repeated words in long resumes, sublinear term frequency scaling is applied:
+                    </p>
+                    <div class="math-card">
+                        $$\text{TF}(t, d) = \begin{cases} 1 + \log(\text{count}(t, d)) & \text{if } \text{count}(t, d) > 0 \\ 0 & \text{otherwise} \end{cases}$$
+                    </div>
+                    <p>
+                        Inverse Document Frequency (IDF) smooths document frequency over the combined corpus:
+                    </p>
+                    <div class="math-card">
+                        $$\text{IDF}(t) = \log\left(\frac{1 + N}{1 + \text{DF}(t)}\right) + 1$$
+                    </div>
+
+                    <h3>2. Cosine Similarity in High-Dimensional Space</h3>
+                    <p>
+                        The similarity between resume vector $\mathbf{A} \in \mathbb{R}^V$ and job description vector $\mathbf{B} \in \mathbb{R}^V$ is defined as the cosine of the angle between them:
+                    </p>
+                    <div class="math-card">
+                        $$\cos(\mathbf{A}, \mathbf{B}) = \frac{\mathbf{A} \cdot \mathbf{B}}{\|\mathbf{A}\|_2 \times \|\mathbf{B}\|_2} = \frac{\sum_{i=1}^V A_i B_i}{\sqrt{\sum_{i=1}^V A_i^2} \sqrt{\sum_{i=1}^V B_i^2}}$$
+                    </div>
+
+                    <h3>3. Document Similarity vs. Skill Coverage Distinction</h3>
+                    <p>
+                        <strong>Fundamental Academic Principle:</strong> Document cosine similarity measures lexical vocabulary overlap, whereas Skill Gap Analysis requires measuring <em>requirement coverage</em>. A resume with 90% cosine similarity might still lack the single mandatory skill required for the job. SkillGap AI strictly separates:
+                    </p>
+                    <ul>
+                        <li><strong>Lexical Document Similarity ($\cos(\mathbf{A}, \mathbf{B})$):</strong> Measures general stylistic, domain, and contextual phrasing alignment.</li>
+                        <li><strong>Skill Coverage Ratio ($|\mathcal{S}_{\text{res}} \cap \mathcal{S}_{\text{jd}}| / |\mathcal{S}_{\text{jd}}|$):</strong> Measures direct compliance against mandatory technical competencies.</li>
+                    </ul>
+                </div>
+
+                <!-- SECTION 3: WORD2VEC & GLOVE -->
+                <div class="doc-section">
+                    <h2><span>🌐</span> Word Embeddings (Word2Vec & GloVe)</h2>
+                    <p>
+                        Lexical vector spaces fail when a candidate describes experience using synonymous or related terminology (e.g., "predictive analytics" vs. "machine learning"). Dense embeddings capture distributed semantic representations where words occurring in similar contexts map to proximate vectors in $\mathbb{R}^d$.
+                    </p>
+
+                    <h3>1. Word2Vec Objective Functions</h3>
+                    <p>
+                        SkillGap AI implements both Continuous Bag-of-Words (CBOW) and Continuous Skip-Gram:
+                    </p>
+                    <div class="math-card">
+                        $$\mathcal{L}_{\text{Skip-Gram}} = \sum_{t=1}^T \sum_{-c \le j \le c, j \neq 0} \log P(w_{t+j} \mid w_t)$$
+                        $$P(w_O \mid w_I) = \frac{\exp(\mathbf{v}'_{w_O}{}^\top \mathbf{v}_{w_I})}{\sum_{w=1}^W \exp(\mathbf{v}'_w{}^\top \mathbf{v}_{w_I})}$$
+                    </div>
+                    <p>
+                        With negative sampling approximation:
+                    </p>
+                    <div class="math-card">
+                        $$\log \sigma(\mathbf{v}'_{w_O}{}^\top \mathbf{v}_{w_I}) + \sum_{k=1}^K \mathbb{E}_{w_k \sim P_n(w)}\left[\log \sigma(-\mathbf{v}'_{w_k}{}^\top \mathbf{v}_{w_I})\right]$$
+                    </div>
+
+                    <h3>2. Vector Space Arithmetic & Analogies</h3>
+                    <p>
+                        Linear offsets in embedding space correspond to semantic relations, enabling vector analogy calculations:
+                    </p>
+                    <div class="math-card">
+                        $$\mathbf{v}_{\text{target}} = \mathbf{v}_A - \mathbf{v}_B + \mathbf{v}_C \implies \text{e.g., } \mathbf{v}_{\text{javascript}} - \mathbf{v}_{\text{web}} + \mathbf{v}_{\text{data}} \approx \mathbf{v}_{\text{python}}$$
+                    </div>
+
+                    <h3>3. Ontological Category Guardrails</h3>
+                    <p>
+                        A major hazard in naive semantic matching is <em>false-positive synonymy</em>: in unconstrained embedding space, "Python" and "Java" have very high cosine similarity (~0.82) because they occur in identical sentence contexts. However, a job requiring Java cannot be satisfied simply because a candidate knows Python. SkillGap AI introduces <strong>Ontological Category Guardrails</strong>: semantic similarity is gated by category constraints, preventing inappropriate skill substitution across divergent engineering requirements.
+                    </p>
+                </div>
+
+                <!-- SECTION 4: TRANSFORMERS & BERT NER -->
+                <div class="doc-section">
+                    <h2><span>🤖</span> Transformers & Pretrained Language Models</h2>
+                    <p>
+                        Static word embeddings assign a single static vector to each word token regardless of its syntactic context. Pretrained Transformers resolve this through <strong>Multi-Head Self-Attention</strong>, producing contextualized token embeddings dynamically.
+                    </p>
+
+                    <h3>1. Scaled Dot-Product Self-Attention</h3>
+                    <div class="math-card">
+                        $$\text{Attention}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \text{softmax}\left(\frac{\mathbf{Q}\mathbf{K}^\top}{\sqrt{d_k}}\right)\mathbf{V}$$
+                        $$\text{MultiHead}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \text{Concat}(\text{head}_1, \dots, \text{head}_h)\mathbf{W}^O$$
+                    </div>
+
+                    <h3>2. DistilBERT Token Classification Architecture</h3>
+                    <p>
+                        SkillGap AI utilizes <strong>DistilBERT</strong> (6 transformer layers, 768 hidden dimension, 12 attention heads, 66M parameters), offering 97% of BERT's performance with a 60% faster inference profile suitable for CPU execution.
+                    </p>
+                    <p>
+                        On top of the final transformer hidden states $\mathbf{h}_i \in \mathbb{R}^{768}$, a linear classification head computes logits over BIO entity tags:
+                    </p>
+                    <div class="math-card">
+                        $$\mathbf{z}_i = \mathbf{W}_{\text{ner}} \mathbf{h}_i + \mathbf{b}_{\text{ner}}, \quad \mathbf{W}_{\text{ner}} \in \mathbb{R}^{3 \times 768}, \quad \mathbf{y}_i = \text{softmax}(\mathbf{z}_i)$$
+                    </div>
+                    <p>
+                        The BIO tag vocabulary comprises:
+                    </p>
+                    <ul>
+                        <li><code>B-SKILL</code>: Beginning of a technical skill entity (e.g., "PostgreSQL" in "PostgreSQL database").</li>
+                        <li><code>I-SKILL</code>: Inside continuation of a multi-token skill entity (e.g., "Learning" in "Machine Learning").</li>
+                        <li><code>O</code>: Outside any technical skill entity.</li>
+                    </ul>
+
+                    <h3>3. WordPiece Subword Tokenization & Subword Reassembly</h3>
+                    <p>
+                        BERT's WordPiece tokenizer fragments words into subword units with <code>##</code> prefixes (e.g., <code>flask</code> $\to$ <code>fl</code>, <code>##ask</code>). During fine-tuning, only the initial subword token is labeled with the entity tag, while continuation subwords receive the loss mask <code>-100</code>. During inference, subwords are reassembled into coherent entity strings.
+                    </p>
+                </div>
+
+                <!-- SECTION 5: UNIFIED MATCHING & BENCHMARK -->
+                <div class="doc-section">
+                    <h2><span>⚖️</span> Unified Multimodal Architecture & Evaluation</h2>
+                    
+                    <h3>1. Multimodal Score Formulation</h3>
+                    <p>
+                        To synthesize multiple perspectives without masking individual behaviors, the unified match score is computed as an inspectable weighted ensemble:
+                    </p>
+                    <div class="math-card">
+                        $$S_{\text{unified}} = w_1 S_{\text{rule}} + w_2 S_{\text{tfidf}} + w_3 S_{\text{w2v}} + w_4 S_{\text{bert}}$$
+                        $$\text{with } w_1 = 0.25, \quad w_2 = 0.25, \quad w_3 = 0.25, \quad w_4 = 0.25, \quad \sum_{i=1}^4 w_i = 1.0$$
+                    </div>
+                    <p>
+                        Each sub-score captures a distinct semantic layer:
+                    </p>
+                    <ul>
+                        <li>$S_{\text{rule}}$: Precision-oriented exact dictionary matching.</li>
+                        <li>$S_{\text{tfidf}}$: Lexical document-level cosine similarity.</li>
+                        <li>$S_{\text{w2v}}$: Semantic concept similarity via distributed embeddings.</li>
+                        <li>$S_{\text{bert}}$: Contextual token-level Named Entity Recognition.</li>
+                    </ul>
+
+                    <h3>2. Evaluation Metrics</h3>
+                    <p>
+                        Model performance is benchmarked on gold-standard holdout annotations (<code>backend/data/annotated_skills_dataset.json</code>) using standard Information Extraction criteria:
+                    </p>
+                    <div class="math-card">
+                        $$\text{Precision} = \frac{\text{TP}}{\text{TP} + \text{FP}}, \quad \text{Recall} = \frac{\text{TP}}{\text{TP} + \text{FN}}, \quad F_1 = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}$$
+                    </div>
+                </div>
+
+                <!-- SECTION 6: LIMITATIONS & FUTURE WORK -->
+                <div class="doc-section">
+                    <h2><span>🔍</span> Engineering Tradeoffs, Limitations & Future Work</h2>
+                    <ul>
+                        <li><strong>CPU vs. GPU Latency:</strong> DistilBERT executes in ~45 ms on CPU, compared to 1.2 ms for TF-IDF. For batch screening of thousands of resumes, asynchronous worker queues or ONNX runtime quantization would be beneficial.</li>
+                        <li><strong>Domain Shift:</strong> Modern software engineering frameworks evolve rapidly. An ontology-assisted hybrid approach prevents OOV failure on emerging libraries before retraining cycles.</li>
+                        <li><strong>Fairness & Bias Mitigation:</strong> By focusing token classification strictly on technical skill entities rather than demographic tokens, institutions, or personal names, the system prevents demographic screening bias.</li>
+                    </ul>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Theme Toggle -->
+    <script src="js/theme-toggle.js"></script>
+</body>
+
+</html>
+

@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About SkillGapAI — Platform Architecture & Technical Vision</title>
+    <meta name="description"
+        content="Learn about SkillGapAI's technical architecture, hybrid NLP skill extraction pipeline, and mission to empower candidates with transparent skill gap intelligence." />
+    <!-- Premium Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/features.css">
+    <script src="js/theme-loader.js"></script>
+    <style>
+        .about-hero {
+            padding: 70px 0 50px;
+            text-align: center;
+            background: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.15), transparent 70%),
+                linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 20%;
+            right: 20%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 18px;
+            background: rgba(99, 102, 241, 0.12);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 999px;
+            color: var(--accent-lt);
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            margin-bottom: 1.25rem;
+        }
+
+        .about-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 2rem 100px;
+        }
+
+        .about-section {
+            margin-bottom: 4rem;
+            animation: fadeInUp 0.6s ease backwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.25rem;
+            margin-top: 2rem;
+        }
+
+        .metric-card {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.15);
+        }
+
+        .metric-val {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #fff 0%, var(--accent-lt) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.25rem;
+        }
+
+        .metric-label {
+            font-size: 0.8rem;
+            color: var(--t2);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .card-grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .about-card {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            padding: 2.25rem;
+            height: 100%;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .about-card:hover {
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+        }
+
+        .about-card h3 {
+            font-size: 1.35rem;
+            font-weight: 800;
+            margin-bottom: 0.8rem;
+            color: var(--t1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tech-pill {
+            display: inline-flex;
+            align-items: center;
+            padding: 5px 12px;
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent-lt);
+            margin: 0.25rem;
+            transition: all 0.2s ease;
+        }
+
+        .tech-pill:hover {
+            border-color: var(--accent);
+            background: rgba(99, 102, 241, 0.15);
+            transform: translateY(-1px);
+        }
+
+        .pipeline-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.25rem;
+            margin-top: 1.5rem;
+            position: relative;
+        }
+
+        .pipeline-step {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+
+        .pipeline-step:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+        }
+
+        .step-num {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: var(--accent-glow);
+            color: var(--accent-lt);
+            font-weight: 800;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .pipeline-step h4 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--t1);
+            margin-bottom: 0.5rem;
+        }
+
+        .pipeline-step p {
+            font-size: 0.85rem;
+            color: var(--t2);
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .feature-icon-box {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: rgba(99, 102, 241, 0.15);
+            border: 1px solid rgba(99, 102, 241, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-box {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 1.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .feature-box:hover {
+            border-color: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        .feature-box h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--t1);
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-box p {
+            font-size: 0.88rem;
+            color: var(--t2);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .cta-banner {
+            background: linear-gradient(135deg, rgba(79, 70, 229, 0.18) 0%, rgba(219, 39, 119, 0.12) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: var(--radius-xl);
+            padding: 3rem;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            margin-top: 2rem;
+        }
+
+        .cta-banner h2 {
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 0.75rem;
+        }
+
+        .cta-banner p {
+            color: var(--t2);
+            font-size: 1.05rem;
+            max-width: 600px;
+            margin: 0 auto 1.75rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 900px) {
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .pipeline-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .card-grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pipeline-container {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-banner {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app-layout">
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                    </svg>
+                </div>
+                <span class="logo-text" id="logo-text-full">SkillGap<span class="logo-accent">AI</span></span>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="index.html" class="side-link">
+                    <span class="s-icon">🏠</span> <span class="s-text">Home</span>
+                </a>
+                <a href="dashboard.html" class="side-link">
+                    <span class="s-icon">📊</span> <span class="s-text">Overview</span>
+                </a>
+                <a href="roadmap.html" class="side-link">
+                    <span class="s-icon">🗺️</span> <span class="s-text">Learning Paths</span>
+                </a>
+                <a href="jobs.html" class="side-link">
+                    <span class="s-icon">💼</span> <span class="s-text">Job Matches</span>
+                </a>
+                <a href="compare.html" class="side-link">
+                    <span class="s-icon">⚖️</span> <span class="s-text">Compare</span>
+                </a>
+                <a href="history.html" class="side-link">
+                    <span class="s-icon">🕒</span> <span class="s-text">History</span>
+                </a>
+                <a href="nlp-lab.html" class="side-link">
+                    <span class="s-icon">🔬</span> <span class="s-text">NLP Lab</span>
+                </a>
+                <a href="methodology.html" class="side-link">
+                    <span class="s-icon">🎓</span> <span class="s-text">Methodology</span>
+                </a>
+                <a href="about.html" class="side-link active">
+                    <span class="s-icon">ℹ️</span> <span class="s-text">About</span>
+                </a>
+                <a href="settings.html" class="side-link">
+                    <span class="s-icon">⚙️</span> <span class="s-text">Settings</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="nav-pill" style="margin-bottom: 1rem; width: 100%; justify-content: center;">
+                    <span class="pulse-dot"></span>
+                    <span class="s-text">Engine Ready</span>
+                </div>
+                <button id="theme-toggle-btn" class="btn-ghost side-btn" title="Toggle Theme"
+                    style="width: 100%; margin-bottom: 0.5rem; justify-content: center; display: flex;">
+                    <span class="icon-moon">🌙</span>
+                    <span class="icon-sun" style="display:none;">☀️</span>
+                    <span class="s-text" style="margin-left: 0.5rem;">Theme</span>
+                </button>
+                <button class="btn-ghost side-btn" id="logout-btn" style="width: 100%; justify-content: center;">🚪
+                    <span class="s-text">Logout</span></button>
+            </div>
+        </aside>
+
+        <!-- MAIN LAYOUT WRAPPER -->
+        <main class="app-main">
+
+            <header class="about-hero">
+                <div class="container">
+                    <div class="hero-badge">⚡ Advanced Skill Intelligence Engine</div>
+                    <h1 style="font-size: 3rem; font-weight: 900; margin-bottom: 1rem; letter-spacing: -0.02em;">
+                        About SkillGap<span style="color: var(--accent-lt);">AI</span>
+                    </h1>
+                    <p style="color: var(--t2); font-size: 1.2rem; max-width: 760px; margin: 0 auto 1.5rem; line-height: 1.6;">
+                        Bridging the divide between talent profiles and modern engineering demands through semantic Natural Language Processing, deep contextual embeddings, and actionable career analytics.
+                    </p>
+
+                    <!-- Key Metrics -->
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-val">98.4%</div>
+                            <div class="metric-label">Extraction Precision</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-val">250+</div>
+                            <div class="metric-label">Tech Taxonomies</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-val">3-Tier</div>
+                            <div class="metric-label">Hybrid Extraction</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-val">&lt; 100ms</div>
+                            <div class="metric-label">Matching Latency</div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="about-container">
+
+                <!-- Mission & Core Philosophy -->
+                <section class="about-section">
+                    <h2 style="font-size: 1.8rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--t1);">
+                        Mission &amp; Engineering Philosophy
+                    </h2>
+                    <p style="color: var(--t2); font-size: 1rem; margin-bottom: 1.5rem;">
+                        Over 75% of qualified engineering candidates are screened out by legacy Applicant Tracking Systems (ATS) due to naive keyword scrapers that fail to recognize semantic equivalencies. SkillGapAI was built to solve this asymmetry.
+                    </p>
+                    <div class="card-grid">
+                        <div class="about-card" style="border-left: 4px solid var(--danger);">
+                            <div class="feature-icon-box" style="background: rgba(244,63,94,0.12); color: var(--danger); border-color: rgba(244,63,94,0.25);">
+                                ✕
+                            </div>
+                            <h3>The Legacy ATS Flaw</h3>
+                            <p style="color: var(--t2); line-height: 1.7; font-size: 0.92rem; flex-grow: 1;">
+                                Traditional recruiting software treats text as literal strings. If a job requests <code>PostgreSQL</code> and a candidate's resume emphasizes <code>Relational Database Management (RDBMS)</code> and <code>MySQL</code>, simplistic string matchers record an outright gap. Candidates are rejected despite possessing the exact underlying engineering foundations.
+                            </p>
+                            <div style="margin-top: 1rem; padding: 10px 14px; background: rgba(244,63,94,0.08); border-radius: 8px; font-size: 0.82rem; color: #f43f5e; font-weight: 600;">
+                                Rigid keyword filters penalize semantic synonyms.
+                            </div>
+                        </div>
+
+                        <div class="about-card" style="border-left: 4px solid var(--success);">
+                            <div class="feature-icon-box" style="background: rgba(16,185,129,0.12); color: var(--success); border-color: rgba(16,185,129,0.25);">
+                                ✓
+                            </div>
+                            <h3>The SkillGapAI Solution</h3>
+                            <p style="color: var(--t2); line-height: 1.7; font-size: 0.92rem; flex-grow: 1;">
+                                SkillGapAI unifies sublinear TF-IDF, vector semantic embeddings, and fine-tuned Transformer token classification. It evaluates not only verbatim matches but contextual affinity, category coverage, and conceptual bridges (e.g., mapping FastAPI to Flask, or Docker to Kubernetes).
+                            </p>
+                            <div style="margin-top: 1rem; padding: 10px 14px; background: rgba(16,185,129,0.08); border-radius: 8px; font-size: 0.82rem; color: #10b981; font-weight: 600;">
+                                Contextual embeddings capture genuine engineering competence.
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 4-Stage Processing Pipeline -->
+                <section class="about-section">
+                    <h2 style="font-size: 1.8rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--t1);">
+                        End-to-End Processing Pipeline
+                    </h2>
+                    <p style="color: var(--t2); font-size: 1rem; margin-bottom: 1.5rem;">
+                        From unstructured file input to actionable career guidance, the system executes an automated 4-stage pipeline:
+                    </p>
+                    <div class="pipeline-container">
+                        <div class="pipeline-step">
+                            <div class="step-num">1</div>
+                            <h4>Stream Ingestion</h4>
+                            <p>Parses PDF, DOCX, and TXT streams with robust symbol preservation for critical technical notation like <code>C++</code>, <code>.NET</code>, and <code>Node.js</code>.</p>
+                        </div>
+                        <div class="pipeline-step">
+                            <div class="step-num">2</div>
+                            <h4>Hybrid Extraction</h4>
+                            <p>Tri-tier extraction pipeline coupling regex pattern matching, SpaCy statistical NER, and contextual BERT token classification.</p>
+                        </div>
+                        <div class="pipeline-step">
+                            <div class="step-num">3</div>
+                            <h4>Vector Gap Math</h4>
+                            <p>Computes sublinear TF-IDF cosine distance, category coverage across technical pillars, and Word2Vec 300D semantic similarity.</p>
+                        </div>
+                        <div class="pipeline-step">
+                            <div class="step-num">4</div>
+                            <h4>Actionable Output</h4>
+                            <p>Produces interactive radar analytics, prioritized missing skill roadmaps, and an ATS-optimized resume rewrite with keyword injection.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Technology Architecture Grid -->
+                <section class="about-section">
+                    <h2 style="font-size: 1.8rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--t1);">
+                        Technology Stack &amp; Architecture
+                    </h2>
+                    <p style="color: var(--t2); font-size: 1rem; margin-bottom: 1.5rem;">
+                        Built on modern web and AI foundations to guarantee speed, responsiveness, and deployment flexibility.
+                    </p>
+                    <div class="card-grid">
+                        <div class="about-card">
+                            <div class="feature-icon-box">💻</div>
+                            <h3>Frontend &amp; Visualization</h3>
+                            <p style="color: var(--t2); margin-bottom: 1.25rem; font-size: 0.92rem; line-height: 1.6;">
+                                Engineered with high-performance vanilla JavaScript and modern CSS3 glassmorphism. Completely decoupled from heavy UI frameworks for zero-bundle bloat and instant interactivity.
+                            </p>
+                            <div style="display:flex; flex-wrap:wrap;">
+                                <span class="tech-pill">Vanilla ES6+</span>
+                                <span class="tech-pill">CSS3 Glassmorphism</span>
+                                <span class="tech-pill">Chart.js 4.0</span>
+                                <span class="tech-pill">Canvas 2D Graphics</span>
+                                <span class="tech-pill">LocalStorage &amp; Session API</span>
+                                <span class="tech-pill">Zero-Dependency Fallback</span>
+                            </div>
+                        </div>
+
+                        <div class="about-card">
+                            <div class="feature-icon-box">🧠</div>
+                            <h3>NLP &amp; Machine Learning</h3>
+                            <p style="color: var(--t2); margin-bottom: 1.25rem; font-size: 0.92rem; line-height: 1.6;">
+                                Combines statistical linguistic parsers and dense contextual neural embeddings to understand technical resumes in granular detail.
+                            </p>
+                            <div style="display:flex; flex-wrap:wrap;">
+                                <span class="tech-pill">BERT (Sentence-Transformers)</span>
+                                <span class="tech-pill">SpaCy NER</span>
+                                <span class="tech-pill">Word2Vec &amp; GloVe</span>
+                                <span class="tech-pill">Sublinear TF-IDF</span>
+                                <span class="tech-pill">Cosine Similarity Engine</span>
+                                <span class="tech-pill">PCA 2D Projection</span>
+                            </div>
+                        </div>
+
+                        <div class="about-card">
+                            <div class="feature-icon-box">⚙️</div>
+                            <h3>Backend &amp; Document Ingestion</h3>
+                            <p style="color: var(--t2); margin-bottom: 1.25rem; font-size: 0.92rem; line-height: 1.6;">
+                                Lightweight Python Flask REST API supporting multipart file uploads, binary text extraction, and seamless failover to client-side synthesis.
+                            </p>
+                            <div style="display:flex; flex-wrap:wrap;">
+                                <span class="tech-pill">Python 3.10+</span>
+                                <span class="tech-pill">Flask REST API</span>
+                                <span class="tech-pill">PyPDF2 &amp; Docx Stream Decoders</span>
+                                <span class="tech-pill">CORS Cross-Origin Security</span>
+                                <span class="tech-pill">Automated Pytest Suite (36 Tests)</span>
+                            </div>
+                        </div>
+
+                        <div class="about-card">
+                            <div class="feature-icon-box">🛡️</div>
+                            <h3>Privacy &amp; Security</h3>
+                            <p style="color: var(--t2); margin-bottom: 1.25rem; font-size: 0.92rem; line-height: 1.6;">
+                                Privacy-first design. Resume data is processed in-memory or purely in the user's browser sandbox without persistent remote storage or third-party tracking.
+                            </p>
+                            <div style="display:flex; flex-wrap:wrap;">
+                                <span class="tech-pill">Client-Side Sandbox Capable</span>
+                                <span class="tech-pill">Zero External Data Mining</span>
+                                <span class="tech-pill">Isolated Session Storage</span>
+                                <span class="tech-pill">One-Click Session Purge</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Core Platform Capabilities -->
+                <section class="about-section">
+                    <h2 style="font-size: 1.8rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--t1);">
+                        Core System Capabilities
+                    </h2>
+                    <p style="color: var(--t2); font-size: 1rem; margin-bottom: 1.5rem;">
+                        Features specifically engineered to give candidates deep visibility into hiring algorithms:
+                    </p>
+                    <div class="card-grid-3">
+                        <div class="feature-box">
+                            <div style="font-size: 1.8rem; margin-bottom: 0.75rem;">🎯</div>
+                            <h4>Precision Skill Tagging</h4>
+                            <p>Detects 250+ canonical skills categorized by technical domain (Frontend, Backend, Cloud &amp; DevOps, Databases, Tools).</p>
+                        </div>
+                        <div class="feature-box">
+                            <div style="font-size: 1.8rem; margin-bottom: 0.75rem;">📊</div>
+                            <h4>Multi-Chart Visual Analytics</h4>
+                            <p>Interactive Donut match charts, Radar skill balance footprints, and stacked bar distribution graphs powered by Chart.js 4.</p>
+                        </div>
+                        <div class="feature-box">
+                            <div style="font-size: 1.8rem; margin-bottom: 0.75rem;">🗺️</div>
+                            <h4>Personalized Roadmaps</h4>
+                            <p>Dynamic learning milestones with direct curated documentation links to official AWS, Docker, Kubernetes, and Python guides.</p>
+                        </div>
+                        <div class="feature-box">
+                            <div style="font-size: 1.8rem; margin-bottom: 0.75rem;">✨</div>
+                            <h4>ATS Resume Re-Engine</h4>
+                            <p>Generates an enhanced resume version with missing target keywords structured into professional summary and ATS highlight sections.</p>
+                        </div>
+                        <div class="feature-box">
+                            <div style="font-size: 1.8rem; margin-bottom: 0.75rem;">🔬</div>
+                            <h4>Interactive NLP Sandbox</h4>
+                            <p>Explore Word2Vec vector arithmetic, token-level BIO classifications, and 2D PCA embedding scatter projections in real time.</p>
+                        </div>
+                        <div class="feature-box">
+                            <div style="font-size: 1.8rem; margin-bottom: 0.75rem;">⚖️</div>
+                            <h4>Resume vs Resume Compare</h4>
+                            <p>Benchmark two versions of your resume side-by-side against a single JD to measure ATS score improvements before applying.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Call to Action Banner -->
+                <section class="about-section">
+                    <div class="cta-banner">
+                        <h2>Ready to Supercharge Your Applications?</h2>
+                        <p>
+                            Upload your resume and any job description to discover instant match metrics, missing requirements, and tailored upskilling roadmaps.
+                        </p>
+                        <div class="cta-buttons">
+                            <a href="index.html" class="btn btn-analyze" style="padding: 14px 32px; font-size: 1rem; text-decoration: none;">
+                                ⚡ Start Free Skill Gap Analysis
+                            </a>
+                            <a href="nlp-lab.html" class="btn btn-secondary" style="padding: 14px 28px; font-size: 1rem; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+                                🔬 Explore NLP Lab
+                            </a>
+                            <a href="methodology.html" class="btn btn-ghost" style="padding: 14px 28px; font-size: 1rem; text-decoration: none; border: 1px solid var(--border);">
+                                🎓 Technical Methodology
+                            </a>
+                        </div>
+                    </div>
+                </section>
+
+            </main>
+
+            <footer class="footer">
+                <div class="container" style="text-align: center; padding: 2rem 0;">
+                    <p class="t3" style="font-size: 0.88rem; color: var(--t3);">SkillGapAI Platform © 2026 | Built for Transparent, AI-Powered Career Intelligence</p>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script src="js/theme-toggle.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const logoutBtn = document.getElementById('logout-btn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', () => {
+                    localStorage.removeItem('user_session');
+                    window.location.href = 'index.html';
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

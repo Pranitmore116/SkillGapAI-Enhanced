@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillGapAI — Analysis History</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/theme-loader.js"></script>
+    <style>
+        .page-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header-box {
+            margin-bottom: 2rem;
+        }
+
+        .table-card {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .table-header {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dash-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .dash-table th {
+            text-align: left;
+            padding: 1.2rem 2rem;
+            background: var(--bg3);
+            color: var(--t2);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .dash-table td {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.95rem;
+            color: var(--t1);
+        }
+
+        .dash-table tr:hover td {
+            background: var(--glass-b);
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .badge-high {
+            background: var(--success-bg);
+            color: var(--success);
+            border: 1px solid var(--success-bd);
+        }
+
+        .badge-med {
+            background: var(--warning-bg);
+            color: var(--warning);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .badge-low {
+            background: var(--danger-bg);
+            color: var(--danger);
+            border: 1px solid var(--danger-bd);
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            text-decoration: none;
+            border-radius: var(--radius-sm);
+        }
+
+        .empty-history {
+            padding: 4rem;
+            text-align: center;
+            color: var(--t3);
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app-layout">
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                    </svg>
+                </div>
+                <span class="logo-text" id="logo-text-full">SkillGap<span class="logo-accent">AI</span></span>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="index.html" class="side-link">
+                    <span class="s-icon">🏠</span> <span class="s-text">Home</span>
+                </a>
+                <a href="dashboard.html" class="side-link">
+                    <span class="s-icon">📊</span> <span class="s-text">Overview</span>
+                </a>
+                <a href="roadmap.html" class="side-link">
+                    <span class="s-icon">🗺️</span> <span class="s-text">Learning Paths</span>
+                </a>
+                <a href="jobs.html" class="side-link">
+                    <span class="s-icon">💼</span> <span class="s-text">Job Matches</span>
+                </a>
+                <a href="compare.html" class="side-link">
+                    <span class="s-icon">⚖️</span> <span class="s-text">Compare</span>
+                </a>
+                <a href="history.html" class="side-link active">
+                    <span class="s-icon">🕒</span> <span class="s-text">History</span>
+                </a>
+                                <a href="nlp-lab.html" class="side-link">
+                    <span class="s-icon">🔬</span> <span class="s-text">NLP Lab</span>
+                </a>
+                <a href="methodology.html" class="side-link">
+                    <span class="s-icon">🎓</span> <span class="s-text">Methodology</span>
+                </a>
+<a href="about.html" class="side-link">
+                    <span class="s-icon">ℹ️</span> <span class="s-text">About</span>
+                </a>
+                <a href="settings.html" class="side-link">
+                    <span class="s-icon">⚙️</span> <span class="s-text">Settings</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="nav-pill" style="margin-bottom: 1rem; width: 100%; justify-content: center;">
+                    <span class="pulse-dot"></span>
+                    <span class="s-text">NLP Active</span>
+                </div>
+                <button id="theme-toggle-btn" class="btn-ghost side-btn" title="Toggle Theme"
+                    style="width: 100%; margin-bottom: 0.5rem; justify-content: center; display: flex;">
+                    <span class="icon-moon">🌙</span>
+                    <span class="icon-sun" style="display:none;">☀️</span>
+                    <span class="s-text" style="margin-left: 0.5rem;">Theme</span>
+                </button>
+                <button class="btn-ghost side-btn" id="logout-btn" style="width: 100%; justify-content: center;">🚪
+                    <span class="s-text">Logout</span></button>
+            </div>
+        </aside>
+
+        <main class="app-main">
+            <div class="page-container">
+                <header class="header-box">
+                    <h1 style="font-size: 2.5rem; font-weight: 800;">Analysis History</h1>
+                    <p style="color: var(--t2);">Review and compare your past resume analyses over time.</p>
+                </header>
+
+                <div class="table-card">
+                    <div class="table-header">
+                        <h3 style="font-weight: 700; font-size: 1.25rem;">Recent Scans</h3>
+                        <div style="display:flex; gap:0.5rem;">
+                            <button id="clearHistoryBtn" class="btn-ghost"
+                                style="padding: 6px 16px; font-size: 0.85rem; color:var(--danger); border-color: var(--danger-bd);">Clear
+                                All Data</button>
+                            <a href="#" class="btn-ghost"
+                                style="padding: 6px 16px; font-size: 0.85rem; color:var(--accent-lt); border-color: rgba(136, 146, 240, 0.4);">Download
+                                Report CSV</a>
+                        </div>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table class="dash-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Target Role / File</th>
+                                    <th>Match Score</th>
+                                    <th>ATS Optimization</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="historyTableBodyFull">
+                                <!-- Populated dynamically -->
+                                <tr id="emptyRow">
+                                    <td colspan="6" class="empty-history">
+                                        No analyses found in your history. <br><br>
+                                        <a href="index.html" class="btn-analyze"
+                                            style="text-decoration: none; padding: 10px 24px; font-size: 0.95rem; display: inline-block;">Start
+                                            First Analysis</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/theme-toggle.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const historyData = JSON.parse(localStorage.getItem('skillgap_history') || '[]');
+            const tbody = document.getElementById('historyTableBodyFull');
+
+            if (historyData.length > 0) {
+                tbody.innerHTML = '';
+
+                [...historyData].reverse().forEach(item => {
+                    const dateObj = new Date(item.date);
+                    const dateStr = dateObj.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+
+                    const score = item.matchPct || 0;
+                    let badgeClass = 'badge-low';
+                    let statusText = 'Needs Work';
+
+                    if (score >= 80) {
+                        badgeClass = 'badge-high';
+                        statusText = 'Excellent';
+                    } else if (score >= 50) {
+                        badgeClass = 'badge-med';
+                        statusText = 'Average';
+                    }
+
+                    let cleanTitle = (item.role || 'JD Analysis').replace(/\.(pdf|txt|docx)$/i, '').replace(/[_-]/g, ' ').trim();
+                    if (cleanTitle.length > 30 && !cleanTitle.includes(' ')) cleanTitle = 'Software Engineer';
+
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td style="color: var(--t2); font-weight: 500;">${dateStr}</td>
+                        <td style="font-weight: 600;" title="${cleanTitle}">${cleanTitle.length > 25 ? cleanTitle.substring(0, 25) + '...' : cleanTitle}</td>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span style="font-weight: 700; color: ${score >= 80 ? 'var(--success)' : (score >= 50 ? 'var(--warning)' : 'var(--danger)')};">${score}%</span>
+                                <div style="width: 60px; height: 6px; background: var(--bg3); border-radius: 4px; overflow: hidden;">
+                                    <div style="width: ${score}%; height: 100%; background: ${score >= 80 ? 'var(--success)' : (score >= 50 ? 'var(--warning)' : 'var(--danger)')};"></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="color: var(--t2);">${item.atsPct || 0}%</td>
+                        <td><span class="status-badge ${badgeClass}">${statusText}</span></td>
+                        <td>
+                            <a href="index.html" class="btn-ghost btn-sm">Retest</a>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            document.getElementById('clearHistoryBtn').addEventListener('click', () => {
+                if (confirm('Are you sure you want to delete all analysis history?')) {
+                    localStorage.removeItem('skillgap_history');
+                    location.reload();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

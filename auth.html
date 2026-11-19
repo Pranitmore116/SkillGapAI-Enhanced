@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillGapAI — Secure Access</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        /* Auth Specific Styles Overriding/Extending styles.css */
+        .auth-page {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .auth-card {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            padding: 3rem;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
+            z-index: 10;
+            animation: fadeInScale 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes fadeInScale {
+            0% {
+                opacity: 0;
+                transform: scale(0.95) translateY(10px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .auth-logo {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--t1) 0%, var(--accent-lt) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        .auth-subtitle {
+            color: var(--t2);
+            font-size: 0.95rem;
+        }
+
+        .auth-form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .auth-label {
+            display: block;
+            color: var(--t2);
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            margin-left: 0.2rem;
+        }
+
+        .auth-input {
+            width: 100%;
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 0.9rem 1.2rem;
+            color: var(--t1);
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        .auth-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: var(--bg4);
+            box-shadow: 0 0 0 4px var(--accent-glow);
+        }
+
+        .auth-btn {
+            width: 100%;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            padding: 1rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 1rem;
+        }
+
+        .auth-btn:hover {
+            background: var(--accent-lt);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px var(--accent-glow);
+        }
+
+        .auth-btn:active {
+            transform: translateY(0);
+        }
+
+        .auth-toggle {
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--t2);
+            font-size: 0.9rem;
+        }
+
+        .auth-toggle-btn {
+            color: var(--accent-lt);
+            font-weight: 600;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            padding: 0.2rem 0.5rem;
+        }
+
+        .auth-toggle-btn:hover {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+
+        /* Validation States */
+        .auth-input.invalid {
+            border-color: var(--danger);
+            background: var(--danger-bg);
+        }
+
+        .error-hint {
+            color: var(--danger);
+            font-size: 0.75rem;
+            margin-top: 0.4rem;
+            margin-left: 0.2rem;
+            display: none;
+        }
+
+        .auth-input.invalid+.error-hint {
+            display: block;
+        }
+
+        /* Success/Loading Toast */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            gap: 1rem;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .toast.success {
+            border-color: var(--success);
+        }
+
+        .toast.error {
+            border-color: var(--danger);
+        }
+    </style>
+</head>
+
+<body class="auth-page">
+
+    <div class="auth-card" id="authContainer">
+        <!-- Header -->
+        <div class="auth-header">
+            <h1 class="auth-logo">SkillGapAI</h1>
+            <p class="auth-subtitle" id="authSubtitle">Analyze your career path with precision.</p>
+        </div>
+
+        <!-- Forms -->
+        <form id="authForm" novalidate>
+            <!-- Title -->
+            <h2 id="formTitle" style="margin-bottom: 2rem; font-size: 1.5rem; font-weight: 700;">Login</h2>
+
+            <!-- Email -->
+            <div class="auth-form-group">
+                <label class="auth-label">Email Address</label>
+                <input type="email" id="email" class="auth-input" placeholder="name@company.com" required>
+                <div class="error-hint" id="emailError">Please enter a valid email address.</div>
+            </div>
+
+            <!-- Password -->
+            <div class="auth-form-group">
+                <label class="auth-label">Password</label>
+                <input type="password" id="password" class="auth-input" placeholder="••••••••" required minlength="6">
+                <div class="error-hint" id="passwordError">Password must be at least 6 characters.</div>
+            </div>
+
+            <!-- Confirm Password (Signup Only) -->
+            <div class="auth-form-group" id="confirmGroup" style="display: none;">
+                <label class="auth-label">Confirm Password</label>
+                <input type="password" id="confirmPassword" class="auth-input" placeholder="••••••••">
+                <div class="error-hint" id="confirmError">Passwords do not match.</div>
+            </div>
+
+            <button type="submit" class="auth-btn" id="submitBtn">Login</button>
+
+            <!-- Toggle -->
+            <div class="auth-toggle">
+                <span id="toggleText">Don't have an account?</span>
+                <button type="button" class="auth-toggle-btn" id="toggleBtn">Sign Up</button>
+            </div>
+
+            <div
+                style="margin-top: 1.5rem; border-top: 1px solid var(--border); padding-top: 1.5rem; text-align: center;">
+                <button type="button" id="demo-login-btn" class="btn-ghost"
+                    style="width: 100%; border-style: dashed; border-color: var(--accent);">🚀 Quick Presentation
+                    Login</button>
+            </div>
+        </form>
+
+        <div style="margin-top: 2rem; display: flex; justify-content: center; gap: 1.5rem; font-size: 0.85rem;">
+            <a href="landing.html"
+                style="color: var(--t3); text-decoration: none; transition: var(--transition);">Home</a>
+            <a href="about.html" style="color: var(--t3); text-decoration: none; transition: var(--transition);">About
+                SkillGapAI</a>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast">
+        <span id="toastIcon"></span>
+        <span id="toastMsg"></span>
+    </div>
+
+    <script src="js/auth.js"></script>
+</body>
+
+</html>

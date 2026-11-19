@@ -1,19 +1,998 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SkillGapAI — Career Skill Gap Analyzer</title>
-    <meta http-equiv="refresh" content="0; url=SkillGapAI-Frontend/index.html">
-    <script>
-        window.location.replace("SkillGapAI-Frontend/index.html" + window.location.search + window.location.hash);
-    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SkillGapAI — Smart Resume Analyzer</title>
+    <meta name="description"
+        content="AI-powered skill gap analyzer. Upload your resume and job description for an instant match score, missing skills, and personalized recommendations." />
+    <!-- Premium Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/features.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="js/theme-loader.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
-<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background: #0b0f19; color: #f8fafc; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0;">
-    <div style="text-align: center;">
-        <h2 style="margin-bottom: 0.5rem;">Launching SkillGapAI...</h2>
-        <p style="color: #94a3b8;">If you are not redirected automatically, <a href="SkillGapAI-Frontend/index.html" style="color: #818cf8; text-decoration: underline;">click here to enter</a>.</p>
+
+<body>
+
+    <!-- ═══════════════════════════════════════════
+     SIDEBAR NAV
+════════════════════════════════════════════ -->
+    <div class="app-layout">
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                    </svg>
+                </div>
+                <span class="logo-text" id="logo-text-full">SkillGap<span class="logo-accent">AI</span></span>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="index.html" class="side-link active">
+                    <span class="s-icon">🏠</span> <span class="s-text">Home</span>
+                </a>
+                <a href="dashboard.html" class="side-link">
+                    <span class="s-icon">📊</span> <span class="s-text">Overview</span>
+                </a>
+                <a href="roadmap.html" class="side-link">
+                    <span class="s-icon">🗺️</span> <span class="s-text">Learning Paths</span>
+                </a>
+                <a href="jobs.html" class="side-link">
+                    <span class="s-icon">💼</span> <span class="s-text">Job Matches</span>
+                </a>
+                <a href="compare.html" class="side-link">
+                    <span class="s-icon">⚖️</span> <span class="s-text">Compare</span>
+                </a>
+                <a href="history.html" class="side-link">
+                    <span class="s-icon">🕒</span> <span class="s-text">History</span>
+                </a>
+                <a href="nlp-lab.html" class="side-link">
+                    <span class="s-icon">🔬</span> <span class="s-text">NLP Lab</span>
+                </a>
+                <a href="methodology.html" class="side-link">
+                    <span class="s-icon">🎓</span> <span class="s-text">Methodology</span>
+                </a>
+                <a href="about.html" class="side-link">
+                    <span class="s-icon">ℹ️</span> <span class="s-text">About</span>
+                </a>
+                <a href="settings.html" class="side-link">
+                    <span class="s-icon">⚙️</span> <span class="s-text">Settings</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="nav-pill" style="margin-bottom: 1rem; width: 100%; justify-content: center;">
+                    <span class="pulse-dot"></span>
+                    <span class="s-text">NLP Active</span>
+                </div>
+                <button id="theme-toggle-btn" class="btn-ghost side-btn" title="Toggle Theme"
+                    style="width: 100%; margin-bottom: 0.5rem; justify-content: center; display: flex;">
+                    <span class="icon-moon">🌙</span>
+                    <span class="icon-sun" style="display:none;">☀️</span>
+                    <span class="s-text" style="margin-left: 0.5rem;">Theme</span>
+                </button>
+                <button class="btn-ghost side-btn" id="logout-btn" style="width: 100%; justify-content: center;">🚪
+                    <span class="s-text">Logout</span></button>
+            </div>
+        </aside>
+
+        <!-- MAIN LAYOUT WRAPPER -->
+        <main class="app-main">
+            <!-- Header area for New Analysis and Navigation buttons -->
+            <header class="top-header" style="display: flex; justify-content: flex-end; gap: 10px; padding: 1rem 2rem; align-items: center;">
+                <button class="btn-ghost back-to-upload-btn" id="back-to-upload-btn" style="display:none;">✏️ Edit Resume / JD</button>
+                <button class="btn-primary" id="view-results-btn" style="display:none;">📊 View Analysis Results</button>
+                <button class="btn-ghost" id="new-analysis-btn" style="display:none;">🔄 New Analysis</button>
+            </header>
+
+            <!-- ═══════════════════════════════════════════
+             SECTION 1 — UPLOAD
+            ════════════════════════════════════════════ -->
+            <section class="page-section active" id="upload-section">
+                <div class="container">
+
+                    <!-- Hero -->
+                    <div class="hero" style="position: relative; overflow: visible; padding: 60px 0 100px;">
+                        <!-- Subtle Background Grid & Glow -->
+                        <div style="position: absolute; inset: -50px; background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px); background-size: 30px 30px; z-index: -1; mask-image: radial-gradient(ellipse at center, black 10%, transparent 60%); -webkit-mask-image: radial-gradient(ellipse at center, black 10%, transparent 60%); pointer-events: none;"></div>
+                        <div style="position: absolute; top: 20%; left: 50%; transform: translateX(-50%); width: 300px; height: 300px; background: var(--accent-gradient); filter: blur(120px); opacity: 0.15; border-radius: 50%; z-index: -2;"></div>
+
+                        <div class="hero-badge" style="
+                            display: inline-flex; align-items: center; gap: 8px; 
+                            background: rgba(124, 58, 237, 0.05); border: 1px solid rgba(124, 58, 237, 0.2); 
+                            box-shadow: 0 0 20px rgba(124, 58, 237, 0.1), inset 0 0 10px rgba(124, 58, 237, 0.05);
+                            padding: 6px 16px; border-radius: 999px; letter-spacing: 0.06em; font-size: 0.75rem; 
+                            color: #c4b5fd; text-transform: uppercase; font-weight: 700; margin-bottom: 24px;
+                            backdrop-filter: blur(8px);
+                        ">
+                            <span class="pulse-dot" style="width: 6px; height: 6px;"></span>
+                            AI-Powered &nbsp;·&nbsp; Instant Results &nbsp;·&nbsp; 100% Private
+                        </div>
+                        
+                        <h1 class="hero-title" style="
+                            font-size: clamp(3rem, 6.5vw, 5.5rem); font-weight: 900; line-height: 1.05; 
+                            letter-spacing: -0.04em; color: #f8fafc; margin-bottom: 24px;
+                            text-shadow: 0 10px 40px rgba(0,0,0,0.4);
+                        ">
+                            Know Your<br>
+                            <span class="grad" style="padding-bottom: 8px;">Skill Gap</span><br>
+                            Before They Do
+                        </h1>
+                        
+                        <p class="hero-desc" style="
+                            font-size: 1.25rem; color: #94a3b8; max-width: 600px; margin: 0 auto; 
+                            line-height: 1.6; font-weight: 400; letter-spacing: -0.01em;
+                        ">
+                            Upload your resume and paste the job description.<br>
+                            Get an instant match score, skill breakdown, and learning roadmap.
+                        </p>
+                    </div>                    
+                    <!-- Active Session Reminder Banner -->
+                    <div id="active-session-banner" style="display:none; background:linear-gradient(135deg, rgba(16,185,129,0.12), rgba(99,102,241,0.12)); border:1px solid rgba(16,185,129,0.3); border-radius:12px; padding:14px 20px; margin-bottom:24px; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+                        <div style="display:flex; align-items:center; gap:12px;">
+                            <span style="font-size:1.5rem;">⚡</span>
+                            <div>
+                                <div style="font-weight:700; color:var(--t1); font-size:0.95rem;">Active Analysis Session Available</div>
+                                <div style="color:var(--t2); font-size:0.8rem;" id="active-session-banner-text">Resume and job requirements are currently analyzed.</div>
+                            </div>
+                        </div>
+                        <div style="display:flex; gap:8px;">
+                            <button id="banner-view-results-btn" class="btn-primary" style="padding:6px 14px; font-size:0.85rem;">View Results Dashboard →</button>
+                            <button id="banner-clear-btn" class="btn-ghost" style="padding:6px 14px; font-size:0.85rem; color:var(--danger); border-color:var(--danger);">Start Fresh</button>
+                        </div>
+                    </div>
+
+                    <!-- Upload Cards -->
+                    <div class="upload-grid">
+
+                        <!-- Resume -->
+                        <div class="upload-card">
+                            <div class="card-header">
+                                <div class="card-icon icon-blue">
+                                    <svg viewBox="0 0 24 24" fill="none">
+                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8L14 2z"
+                                            stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                                        <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div class="card-title">Your Resume</div>
+                                    <div class="card-sub">PDF or plain text file</div>
+                                </div>
+                            </div>
+                            <div class="dropzone" id="resume-dropzone">
+                                <div class="dz-inner" id="resume-drop-inner">
+                                    <div class="dz-icon">
+                                        <svg viewBox="0 0 24 24" fill="none">
+                                            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg>
+                                    </div>
+                                    <p class="dz-text">Drag &amp; drop your resume here</p>
+                                    <p class="dz-sub">PDF or TXT supported</p>
+                                    <label class="btn-upload" for="resume-input">📁 Browse File</label>
+                                    <input type="file" id="resume-input" accept=".pdf,.txt,.docx" hidden />
+                                </div>
+                                <div class="file-success" id="resume-success" style="display:none;">
+                                    <div class="fs-icon">✓</div>
+                                    <div>
+                                        <div class="fs-name" id="resume-filename">resume.pdf</div>
+                                        <div class="fs-size" id="resume-filesize">—</div>
+                                    </div>
+                                    <button class="fs-remove" id="resume-remove" title="Remove">✕</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- JD -->
+                        <div class="upload-card">
+                            <div class="card-header">
+                                <div class="card-icon icon-purple">
+                                    <svg viewBox="0 0 24 24" fill="none">
+                                        <path
+                                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2M12 12h3M12 16h3M9 12h.01M9 16h.01"
+                                            stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div class="card-title">Job Description</div>
+                                    <div class="card-sub">Paste text or upload file</div>
+                                </div>
+                            </div>
+
+                            <div class="jd-tabs">
+                                <button class="tab-btn active" data-tab="paste">✏️ Paste Text</button>
+                                <button class="tab-btn" data-tab="file">📁 Upload File</button>
+                            </div>
+
+                            <div class="tab-content active" id="tab-content-paste">
+                                <textarea class="jd-textarea" id="jd-textarea" spellcheck="false"
+                                    placeholder="Paste the job description here...&#10;&#10;e.g. We are looking for a Full Stack Developer with 3+ years experience in React, Node.js, Python, AWS..."></textarea>
+                                <div class="char-count"><span id="char-count">0</span> characters</div>
+                            </div>
+
+                            <div class="tab-content" id="tab-content-file">
+                                <div class="dropzone" id="jd-dropzone">
+                                    <div class="dz-inner" id="jd-drop-inner">
+                                        <div class="dz-icon">
+                                            <svg viewBox="0 0 24 24" fill="none">
+                                                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"
+                                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </svg>
+                                        </div>
+                                        <p class="dz-text">Upload Job Description</p>
+                                        <p class="dz-sub">PDF or TXT file</p>
+                                        <label class="btn-upload" for="jd-input">📁 Browse File</label>
+                                        <input type="file" id="jd-input" accept=".pdf,.txt,.docx" hidden />
+                                    </div>
+                                    <div class="file-success" id="jd-success" style="display:none;">
+                                        <div class="fs-icon">✓</div>
+                                        <div>
+                                            <div class="fs-name" id="jd-filename">jd.pdf</div>
+                                            <div class="fs-size" id="jd-filesize">—</div>
+                                        </div>
+                                        <button class="fs-remove" id="jd-remove" title="Remove">✕</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- /upload-grid -->
+
+                    <div class="error-msg" id="error-msg"
+                        style="display:none; flex-direction: column; gap: 10px; align-items: flex-start; background: rgba(244, 63, 94, 0.12); border: 1px solid rgba(244, 63, 94, 0.3); border-radius: 12px; padding: 16px 20px; color: #f43f5e; margin-bottom: 24px; box-shadow: 0 4px 15px rgba(244, 63, 94, 0.1);">
+                        <div
+                            style="display: flex; gap: 10px; align-items: center; font-weight: 600; font-size: 1.05rem;">
+                            <span>⚠</span>
+                            <span id="error-text">Please upload a resume and provide a job description.</span>
+                        </div>
+                        <details id="error-details-wrap"
+                            style="width: 100%; font-size: 0.8rem; margin-top: 5px; display: none;">
+                            <summary style="cursor: pointer; color: var(--t3);">View Technical Details</summary>
+                            <pre id="error-details"
+                                style="background: rgba(0,0,0,0.2); padding: 10px; border-radius: 4px; margin-top: 8px; white-space: pre-wrap; font-family: monospace;"></pre>
+                        </details>
+                    </div>
+
+                    <!-- Analyze -->
+                    <div class="analyze-wrap" style="text-align: center; margin: 40px 0;">
+                        <button type="button" class="btn btn-analyze" id="analyze-btn" onclick="performAnalysis(event)" style="
+                            padding: 20px 48px;
+                            font-size: 1.25rem;
+                            letter-spacing: 0.03em;
+                            display: inline-flex;
+                            align-items: center;
+                            justify-content: center;
+                            gap: 12px;
+                            border: 1px solid rgba(255,255,255,0.2);
+                            box-shadow: 0 10px 40px rgba(124, 58, 237, 0.4), inset 0 2px 0 rgba(255, 255, 255, 0.15);
+                            border-radius: 999px;
+                            cursor: pointer;
+                        ">
+                            <svg viewBox="0 0 24 24" fill="currentColor" style="width: 26px; height: 26px; pointer-events: none;">
+                                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" style="pointer-events: none;" />
+                            </svg>
+                            Analyze Skill Gap
+                        </button>
+                        <div style="margin-top: 14px;">
+                            <button type="button" class="btn-ghost" id="load-sample-btn" onclick="window.loadSampleData && window.loadSampleData()" style="font-size: 0.85rem; padding: 6px 16px; border: 1px solid var(--border); color: var(--accent-lt); border-radius: 999px;">
+                                ⚡ Quick Test: Load Sample Resume &amp; JD
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Features -->
+                    <div class="features-row" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 16px; margin-top: 20px; opacity: 0.9;">
+                        <div class="feat-pill" style="padding: 8px 16px; border-radius: 999px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); font-size: 0.85rem; color: var(--t2); backdrop-filter: blur(10px); display: flex; align-items: center; gap: 8px; transition: all 0.3s ease;">
+                            <span style="color: var(--info);">🎯</span> Skill Matching
+                        </div>
+                        <div class="feat-pill" style="padding: 8px 16px; border-radius: 999px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); font-size: 0.85rem; color: var(--t2); backdrop-filter: blur(10px); display: flex; align-items: center; gap: 8px; transition: all 0.3s ease;">
+                            <span style="color: var(--accent-lt);">📊</span> Visual Dashboard
+                        </div>
+                        <div class="feat-pill" style="padding: 8px 16px; border-radius: 999px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); font-size: 0.85rem; color: var(--t2); backdrop-filter: blur(10px); display: flex; align-items: center; gap: 8px; transition: all 0.3s ease;">
+                            <span style="color: var(--success);">🤖</span> NLP Powered
+                        </div>
+                        <div class="feat-pill" style="padding: 8px 16px; border-radius: 999px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); font-size: 0.85rem; color: var(--t2); backdrop-filter: blur(10px); display: flex; align-items: center; gap: 8px; transition: all 0.3s ease;">
+                            <span style="color: var(--warning);">💡</span> Recommendations
+                        </div>
+                        <div class="feat-pill" style="padding: 8px 16px; border-radius: 999px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); font-size: 0.85rem; color: var(--t2); backdrop-filter: blur(10px); display: flex; align-items: center; gap: 8px; transition: all 0.3s ease;">
+                            <span style="color: var(--danger);">📄</span> PDF Parsing
+                        </div>
+                        <div class="feat-pill" style="padding: 8px 16px; border-radius: 999px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); font-size: 0.85rem; color: var(--t2); backdrop-filter: blur(10px); display: flex; align-items: center; gap: 8px; transition: all 0.3s ease;">
+                            <span style="color: var(--success);">🔒</span> 100% Private
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ═══════════════════════════════════════════
+     SECTION 2 — LOADING
+════════════════════════════════════════════ -->
+            <section class="page-section" id="loading-section">
+                <div class="container center-content">
+                    <div class="loader-wrap">
+                        <div class="spin-ring"></div>
+                        <div>
+                            <h2>Analyzing Your Profile</h2>
+                            <p id="loader-status">Reading your resume...</p>
+                        </div>
+                        <div class="loader-steps">
+                            <div class="l-step" id="step-1"><span class="l-dot"></span><span>Reading Resume</span></div>
+                            <div class="l-step" id="step-2"><span class="l-dot"></span><span>Processing Job
+                                    Description</span>
+                            </div>
+                            <div class="l-step" id="step-3"><span class="l-dot"></span><span>Extracting &amp; Matching
+                                    Skills</span></div>
+                            <div class="l-step" id="step-4"><span class="l-dot"></span><span>Building Dashboard</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ═══════════════════════════════════════════
+     SECTION 3 — RESULTS
+════════════════════════════════════════════ -->
+            <section class="page-section" id="results-section">
+                <div class="container">
+
+                    <!-- Score Banner -->
+                    <div class="score-banner">
+                        <div>
+                            <h2>Analysis Complete ✅</h2>
+                            <p class="sub" id="result-status-msg">Your profile shows high compatibility with this role.
+                            </p>
+                            <button class="btn-ghost" id="export-pdf-btn"
+                                style="margin-top: 1rem; border: 1px solid var(--accent); padding: 0.6rem 1.2rem; font-size: 0.85rem; color: var(--accent-lt);">
+                                � Download Full PDF Report
+                            </button>
+                            <button class="btn-ghost" id="export-json-btn"
+                                style="margin-top: 1rem; margin-left: 0.5rem; border: 1px solid var(--border); padding: 0.6rem 1.2rem; font-size: 0.85rem;">
+                                💾 Download Data (JSON)
+                            </button>
+                            <button class="btn-ghost" id="export-html-btn"
+                                style="margin-top: 1rem; margin-left: 0.5rem; border: 1px solid rgba(16,185,129,0.4); padding: 0.6rem 1.2rem; font-size: 0.85rem; color: var(--success);">
+                                🌐 Download Full Report (HTML)
+                            </button>
+                        </div>
+
+                        <!-- SVG Circular Progress -->
+                        <div class="ring-wrap">
+                            <svg class="ring-svg" viewBox="0 0 176 176">
+                                <circle class="ring-bg" cx="88" cy="88" r="70" />
+                                <circle class="ring-fill" id="score-ring" cx="88" cy="88" r="70" />
+                            </svg>
+                            <div class="ring-center">
+                                <span id="score-number" style="color:var(--accent-lt)">0%</span>
+                                <span class="ring-lbl">Match Score</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Multi-Metric Scoring Grid -->
+                    <div class="metrics-grid"
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin: -2rem 0 3rem;">
+                        <div class="metric-card"
+                            style="background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; text-align: center; box-shadow: var(--shadow-sm);">
+                            <div
+                                style="font-size: 0.8rem; color: var(--t2); text-transform: uppercase; letter-spacing: 0.05rem; margin-bottom: 0.5rem;">
+                                ATS Optimization</div>
+                            <div id="ats-score-box"
+                                style="font-size: 1.8rem; font-weight: 800; color: var(--accent-lt);">0%
+                            </div>
+                            <p style="font-size: 0.75rem; color: var(--t3); margin-top: 0.5rem;">Resume Format &
+                                Keywords</p>
+                        </div>
+                        <div class="metric-card"
+                            style="background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; text-align: center; box-shadow: var(--shadow-sm);">
+                            <div
+                                style="font-size: 0.8rem; color: var(--t2); text-transform: uppercase; letter-spacing: 0.05rem; margin-bottom: 0.5rem;">
+                                Market Readiness</div>
+                            <div id="market-readiness-box"
+                                style="font-size: 1.8rem; font-weight: 800; color: var(--success);">
+                                0%</div>
+                            <p style="font-size: 0.75rem; color: var(--t3); margin-top: 0.5rem;">Industry Standard Depth
+                            </p>
+                        </div>
+                        <div class="metric-card"
+                            style="background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; text-align: center; box-shadow: var(--shadow-sm);">
+                            <div
+                                style="font-size: 0.8rem; color: var(--t2); text-transform: uppercase; letter-spacing: 0.05rem; margin-bottom: 0.5rem;">
+                                Skill Diversity</div>
+                            <div id="skill-diversity-box"
+                                style="font-size: 1.8rem; font-weight: 800; color: var(--info);">0%
+                            </div>
+                            <p style="font-size: 0.75rem; color: var(--t3); margin-top: 0.5rem;">Breadth Across Pillars
+                            </p>
+                        </div>
+                        <div class="metric-card"
+                            style="background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; text-align: center; box-shadow: var(--shadow-sm);">
+                            <div
+                                style="font-size: 0.8rem; color: var(--t2); text-transform: uppercase; letter-spacing: 0.05rem; margin-bottom: 0.5rem;">
+                                Matched Pillars</div>
+                            <div id="pillar-match-box"
+                                style="font-size: 1.8rem; font-weight: 800; color: var(--warning);">0/0
+                            </div>
+                            <p style="font-size: 0.75rem; color: var(--t3); margin-top: 0.5rem;">Categories Found in JD
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Stat Cards -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">📋</div>
+                            <div class="stat-num" id="stat-jd">0</div>
+                            <div class="stat-lbl">JD Skills Required</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">✅</div>
+                            <div class="stat-num" id="stat-matched" style="color:var(--success)">0</div>
+                            <div class="stat-lbl">Skills Matched</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">🎯</div>
+                            <div class="stat-num" id="stat-missing" style="color:var(--danger)">0</div>
+                            <div class="stat-lbl">Skills to Acquire</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">⭐</div>
+                            <div class="stat-num" id="stat-extra" style="color:var(--accent-lt)">0</div>
+                            <div class="stat-lbl">Bonus Skills</div>
+                        </div>
+                    </div>
+
+                    <!-- Charts -->
+                    <div class="charts-row">
+                        <div class="chart-box">
+                            <h3>📊 Skill Match Overview</h3>
+                            <canvas id="donutChart"></canvas>
+                        </div>
+                        <div class="chart-box">
+                            <h3>🕸️ Category Coverage</h3>
+                            <canvas id="radarChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Skill Cards — Matched (green) + Missing (red) -->
+                    <div class="skills-row">
+                        <div class="skill-card matched">
+                            <div class="sk-header">
+                                <span>✅ Matched Skills</span>
+                                <span class="sk-count" id="matched-count">0</span>
+                            </div>
+                            <div class="badges" id="matched-badges">
+                                <span class="empty-note">Run analysis to see results.</span>
+                            </div>
+                        </div>
+                        <div class="skill-card missing">
+                            <div class="sk-header">
+                                <span>🎯 Skills to Acquire</span>
+                                <span class="sk-count" id="missing-count">0</span>
+                            </div>
+                            <div class="badges" id="missing-badges">
+                                <span class="empty-note">Run analysis to see results.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Category Breakdown (bar chart + inline bars) -->
+                    <div class="charts-row">
+                        <div class="chart-box span2">
+                            <h3>📈 Skill Category Breakdown</h3>
+                            <canvas id="barChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Category Progress Bars -->
+                    <div class="chart-box" style="margin-bottom:22px;">
+                        <h3>📂 Category Progress</h3>
+                        <div class="cat-list" id="cat-list"></div>
+                    </div>
+
+                    <!-- Bonus Skills -->
+                    <div class="skill-card extra" style="margin-bottom:22px;">
+                        <div class="sk-header">
+                            <span>⭐ Bonus Skills (in resume, not in JD)</span>
+                            <span class="sk-count" id="extra-count">0</span>
+                        </div>
+                        <p style="font-size:0.82rem;color:var(--t2);margin:4px 0 12px 0;">Technical skills found in your resume but not required by this job description.</p>
+                        <div class="badges" id="extra-badges">
+                            <span class="empty-note">No bonus skills found. All verified technical skills in your resume match the job requirements.</span>
+                        </div>
+                    </div>
+
+                    <!-- Explainability Panel -->
+                    <div class="chart-box" style="margin-bottom:22px;">
+                        <details class="explain-panel">
+                            <summary
+                                style="font-size: 1.1rem; font-weight: 700; cursor: pointer; color: var(--t1); margin-bottom: 0.5rem;">
+                                🔍 How were my skills detected?
+                            </summary>
+                            <div style="margin-top: 1rem; border-top: 1px solid var(--border); padding-top: 1rem;">
+                                <p style="color:var(--t2); font-size: 0.9rem; margin-bottom: 1rem;">
+                                    Our NLP engine uses fuzzy pattern matching. Here is exactly what we found in your
+                                    resume
+                                    text:
+                                </p>
+                                <div class="explain-grid" id="explain-grid"
+                                    style="display: flex; flex-direction: column; gap: 0.8rem; max-height: 400px; overflow-y: auto; padding-right: 0.5rem;">
+                                    <!-- Populated by JS -->
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+
+
+
+                    <!-- ── NEW: RESUME SUGGESTIONS PANEL ── -->
+                    <div class="suggestions-panel" id="suggestions-panel" style="display:none;">
+                        <div class="suggestions-panel-title">
+                            <span
+                                style="background:rgba(245,158,11,0.18);color:#f59e0b;padding:4px 10px;border-radius:8px;font-size:0.9rem;">AI</span>
+                            Smart Resume Suggestions
+                        </div>
+                        <div class="suggestions-panel-sub">AI-detected improvements to make your resume stand out and
+                            pass ATS filters.</div>
+                        <div class="sug-grid" id="sug-grid">
+                            <!-- populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- ── NEW: JOB MATCH EXPLANATION ── -->
+                    <div class="match-explain-panel" id="match-explain-panel" style="display:none;">
+                        <div class="match-explain-title">
+                            <span
+                                style="background:rgba(99,102,241,0.18);color:#a5b4fc;padding:4px 10px;border-radius:8px;font-size:0.9rem;">AI</span>
+                            Why You Match This Job
+                        </div>
+                        <div class="match-why-grid" id="match-why-grid"></div>
+                        <div class="match-section-label">Skills Found in Your Resume</div>
+                        <div class="match-highlight-row" id="match-found-row"></div>
+                        <div class="match-section-label">Skills You Still Need</div>
+                        <div class="match-highlight-row" id="match-missing-row"></div>
+                    </div>
+
+
+                    <!-- Resume Preview & Optimization -->
+                    <div class="resume-preview-section">
+                        <div class="charts-row">
+                            <div class="chart-box">
+                                <div
+                                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                                    <h3 style="margin: 0;">📄 Original Resume</h3>
+                                    <button id="download-original-pdf-btn" class="btn-ghost"
+                                        style="font-size: 0.75rem; padding: 4px 12px; border: 1px solid var(--border); white-space: nowrap; display: none;">📥
+                                        Download PDF</button>
+                                </div>
+                                <div class="resume-text-box" id="raw-resume-box">
+                                    <span class="empty-note">Analysis required...</span>
+                                </div>
+                            </div>
+                            <div class="chart-box">
+                                <div
+                                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                                    <h3 style="margin: 0;">✨ AI Optimized Resume</h3>
+                                    <div style="display: flex; gap: 0.5rem; align-items: center;">
+                                        <button id="copy-optimized-btn" class="btn-ghost"
+                                            style="font-size: 0.75rem; padding: 4px 12px; border: 1px solid var(--accent); white-space: nowrap; display: none;">📋
+                                            Copy</button>
+                                        <button id="download-optimized-pdf-btn" class="btn-ghost"
+                                            style="font-size: 0.75rem; padding: 4px 12px; border: 1px solid var(--success); white-space: nowrap; display: none; color: var(--success);">📥
+                                            Download PDF</button>
+                                    </div>
+                                </div>
+                                <div class="resume-text-box optimized" id="optimized-resume-box">
+                                    <span class="empty-note">Analysis required...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <!-- ═══════════════════════════════════════════
+                         ACADEMIC NLP DEEP DIVE (CSE472 COURSE UPGRADE)
+                    ════════════════════════════════════════════ -->
+                    <div class="nlp-deepdive-container" id="nlp-deepdive-container" style="display:none; margin: 40px 0;">
+                        <div style="background: linear-gradient(135deg, rgba(79,70,229,0.12), rgba(219,39,119,0.08)); border: 1px solid var(--border); border-radius: 20px; padding: 2rem; margin-bottom: 2rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;">
+                                <div>
+                                    <span style="background: var(--accent-gradient); color: white; padding: 4px 12px; border-radius: 999px; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase;">
+                                        Deep Learning for NLP
+                                    </span>
+                                    <h2 style="font-size: 1.8rem; font-weight: 800; margin-top: 0.6rem; color: var(--t1);">NLP Deep Dive & Model Comparison</h2>
+                                    <p style="color: var(--t2); font-size: 0.9rem; margin-top: 4px;">
+                                        Comprehensive inspectability across Text Processing & TF-IDF, Word Embeddings, and Transformers & BERT Token Classification.
+                                    </p>
+                                </div>
+                                <div style="text-align: right; background: var(--bg2); padding: 12px 20px; border-radius: 12px; border: 1px solid var(--border);">
+                                    <div style="font-size: 0.75rem; color: var(--t3); text-transform: uppercase;">Multimodal Unified Score</div>
+                                    <div id="unified-overall-score" style="font-size: 1.8rem; font-weight: 900; color: var(--accent-lt);">0%</div>
+                                    <div style="font-size: 0.7rem; color: var(--t3);">Total Latency: <span id="unified-total-time" style="color:var(--success);">0 ms</span></div>
+                                </div>
+                            </div>
+
+                            <!-- NLP Navigation Tabs -->
+                            <div style="display: flex; flex-wrap: wrap; gap: 8px; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 1.5rem;">
+                                <button type="button" class="nlp-tab-btn active" data-target="nlp-pane-prep" style="background:var(--bg3);border:1px solid var(--border);color:var(--t1);padding:8px 16px;border-radius:8px;font-size:0.85rem;cursor:pointer;font-weight:600;">
+                                    📑 Preprocessing Pipeline
+                                </button>
+                                <button type="button" class="nlp-tab-btn" data-target="nlp-pane-tfidf" style="background:var(--bg3);border:1px solid var(--border);color:var(--t1);padding:8px 16px;border-radius:8px;font-size:0.85rem;cursor:pointer;font-weight:600;">
+                                    📐 TF-IDF & Cosine Math
+                                </button>
+                                <button type="button" class="nlp-tab-btn" data-target="nlp-pane-embeddings" style="background:var(--bg3);border:1px solid var(--border);color:var(--t1);padding:8px 16px;border-radius:8px;font-size:0.85rem;cursor:pointer;font-weight:600;">
+                                    🌐 Word Embeddings & PCA Space
+                                </button>
+                                <button type="button" class="nlp-tab-btn" data-target="nlp-pane-bert" style="background:var(--bg3);border:1px solid var(--border);color:var(--t1);padding:8px 16px;border-radius:8px;font-size:0.85rem;cursor:pointer;font-weight:600;">
+                                    🤖 Transformers & BERT Contextual Skill Extraction
+                                </button>
+                                <button type="button" class="nlp-tab-btn" data-target="nlp-pane-benchmark" style="background:var(--bg3);border:1px solid var(--border);color:var(--t1);padding:8px 16px;border-radius:8px;font-size:0.85rem;cursor:pointer;font-weight:600;">
+                                    📊 Model Comparison
+                                </button>
+                                <button type="button" class="nlp-tab-btn" data-target="nlp-pane-lab" style="background:var(--bg3);border:1px solid var(--border);color:var(--t1);padding:8px 16px;border-radius:8px;font-size:0.85rem;cursor:pointer;font-weight:600;">
+                                    🧪 Interactive NLP Sandbox
+                                </button>
+                            </div>
+
+                            <!-- PANE 1: PREPROCESSING EXPLORER -->
+                            <div class="nlp-tab-pane active" id="nlp-pane-prep">
+                                <h3 style="font-size:1.1rem;margin-bottom:0.8rem;color:var(--t1);">Text Processing Pipeline</h3>
+                                <p style="font-size:0.85rem;color:var(--t2);margin-bottom:1.2rem;">
+                                    Demonstrating case folding, symbol preservation (C++, C#, .NET, Node.js, CI/CD), tokenization with character spans, stopword filtering with technical whitelist, Porter stemming, and WordNet lemmatization.
+                                </p>
+                                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:1.5rem;">
+                                    <div style="background:var(--bg2);border:1px solid var(--border);padding:12px;border-radius:10px;text-align:center;">
+                                        <div style="font-size:0.75rem;color:var(--t3);text-transform:uppercase;">Raw Tokens</div>
+                                        <div id="prep-token-count" style="font-size:1.4rem;font-weight:800;color:var(--accent-lt);">0</div>
+                                    </div>
+                                    <div style="background:var(--bg2);border:1px solid var(--border);padding:12px;border-radius:10px;text-align:center;">
+                                        <div style="font-size:0.75rem;color:var(--t3);text-transform:uppercase;">Cleaned Tokens</div>
+                                        <div id="prep-clean-count" style="font-size:1.4rem;font-weight:800;color:var(--success);">0</div>
+                                    </div>
+                                    <div style="background:var(--bg2);border:1px solid var(--border);padding:12px;border-radius:10px;text-align:center;">
+                                        <div style="font-size:0.75rem;color:var(--t3);text-transform:uppercase;">Stopwords Filtered</div>
+                                        <div id="prep-stopword-count" style="font-size:1.4rem;font-weight:800;color:var(--danger);">0</div>
+                                    </div>
+                                    <div style="background:var(--bg2);border:1px solid var(--border);padding:12px;border-radius:10px;text-align:center;">
+                                        <div style="font-size:0.75rem;color:var(--t3);text-transform:uppercase;">Vocabulary Size</div>
+                                        <div id="prep-vocab-size" style="font-size:1.4rem;font-weight:800;color:#60a5fa;">0</div>
+                                    </div>
+                                    <div style="background:var(--bg2);border:1px solid var(--border);padding:12px;border-radius:10px;text-align:center;">
+                                        <div style="font-size:0.75rem;color:var(--t3);text-transform:uppercase;">Pipeline Latency</div>
+                                        <div id="prep-latency" style="font-size:1.4rem;font-weight:800;color:var(--warning);">0 ms</div>
+                                    </div>
+                                </div>
+                                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+                                    <div style="background:var(--bg2);border:1px solid var(--border);padding:16px;border-radius:12px;">
+                                        <h4 style="font-size:0.95rem;margin-bottom:8px;color:var(--t1);">Top 15 Frequent Lemmatized Terms</h4>
+                                        <div id="prep-top-terms" style="display:flex;flex-wrap:wrap;"></div>
+                                    </div>
+                                    <div style="background:var(--bg2);border:1px solid var(--border);padding:16px;border-radius:12px;">
+                                        <h4 style="font-size:0.95rem;margin-bottom:8px;color:var(--t1);">Sample Bigram & Trigram N-Grams</h4>
+                                        <div id="prep-ngrams" style="display:flex;flex-wrap:wrap;"></div>
+                                        <h4 style="font-size:0.95rem;margin:12px 0 8px;color:var(--t1);">Filtered Stop Words</h4>
+                                        <div id="prep-removed-stops" style="display:flex;flex-wrap:wrap;"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- PANE 2: TF-IDF & COSINE SIMILARITY MATH -->
+                            <div class="nlp-tab-pane" id="nlp-pane-tfidf">
+                                <h3 style="font-size:1.1rem;margin-bottom:0.8rem;color:var(--t1);">Bag-of-Words and TF-IDF Cosine Similarity</h3>
+                                <p style="font-size:0.85rem;color:var(--t2);margin-bottom:1.2rem;">
+                                    Mathematical vector space model calculating exact Cosine Similarity: <code>cos(A, B) = (A · B) / (||A|| × ||B||)</code> and sublinear TF-IDF weights: <code>TF-IDF(t,d) = (1 + log(TF)) × IDF</code>.
+                                </p>
+                                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:1.5rem;">
+                                    <div style="background:var(--bg2);border:1px solid var(--border);padding:12px;border-radius:10px;text-align:center;">
+                                        <div style="font-size:0.75rem;color:var(--t3);text-transform:uppercase;">TF-IDF Cosine</div>
+                                        <div id="tfidf-cosine-score" style="font-size:1.5rem;font-weight:800;color:var(--accent-lt);">0%</div>
+                                    </div>
+                                    <div style="background:var(--bg2);border:1px solid var(--border);padding:12px;border-radius:10px;text-align:center;">
+                                        <div style="font-size:0.75rem;color:var(--t3);text-transform:uppercase;">Skill-Weighted Score</div>
+                                        <div id="tfidf-skill-weighted" style="font-size:1.5rem;font-weight:800;color:var(--success);">0%</div>
+                                    </div>
+                                    <div style="background:var(--bg2);border:1px solid var(--border);padding:12px;border-radius:10px;text-align:center;">
+                                        <div style="font-size:0.75rem;color:var(--t3);text-transform:uppercase;">BoW Similarity</div>
+                                        <div id="tfidf-bow-score" style="font-size:1.5rem;font-weight:800;color:#60a5fa;">0%</div>
+                                    </div>
+                                    <div style="background:var(--bg2);border:1px solid var(--border);padding:12px;border-radius:10px;text-align:center;">
+                                        <div style="font-size:0.75rem;color:var(--t3);text-transform:uppercase;">Vector Dot Product</div>
+                                        <div id="tfidf-dot-product" style="font-size:1.3rem;font-weight:700;color:var(--t1);">0.0</div>
+                                    </div>
+                                    <div style="background:var(--bg2);border:1px solid var(--border);padding:12px;border-radius:10px;text-align:center;">
+                                        <div style="font-size:0.75rem;color:var(--t3);text-transform:uppercase;">||Resume||₂ L2 Norm</div>
+                                        <div id="tfidf-norm-resume" style="font-size:1.3rem;font-weight:700;color:var(--t1);">0.0</div>
+                                    </div>
+                                    <div style="background:var(--bg2);border:1px solid var(--border);padding:12px;border-radius:10px;text-align:center;">
+                                        <div style="font-size:0.75rem;color:var(--t3);text-transform:uppercase;">||JD||₂ L2 Norm</div>
+                                        <div id="tfidf-norm-jd" style="font-size:1.3rem;font-weight:700;color:var(--t1);">0.0</div>
+                                    </div>
+                                </div>
+                                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+                                    <div style="background:var(--bg2);border:1px solid var(--border);padding:16px;border-radius:12px;overflow-x:auto;">
+                                        <h4 style="font-size:0.95rem;margin-bottom:8px;color:var(--t1);">Top Shared Terms (Joint TF-IDF Weight)</h4>
+                                        <table style="width:100%;font-size:0.8rem;border-collapse:collapse;">
+                                            <thead>
+                                                <tr style="background:var(--bg3);color:var(--t3);text-align:left;">
+                                                    <th style="padding:6px 12px;">Term</th>
+                                                    <th style="padding:6px 12px;text-align:center;">Resume</th>
+                                                    <th style="padding:6px 12px;text-align:center;">JD</th>
+                                                    <th style="padding:6px 12px;text-align:center;">Joint</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tfidf-matched-table"></tbody>
+                                        </table>
+                                    </div>
+                                    <div style="background:var(--bg2);border:1px solid var(--border);padding:16px;border-radius:12px;overflow-x:auto;">
+                                        <h4 style="font-size:0.95rem;margin-bottom:8px;color:var(--t1);">Top Missing Terms (High JD Weight, 0 in Resume)</h4>
+                                        <table style="width:100%;font-size:0.8rem;border-collapse:collapse;">
+                                            <thead>
+                                                <tr style="background:var(--bg3);color:var(--t3);text-align:left;">
+                                                    <th style="padding:6px 12px;">Missing Requirement</th>
+                                                    <th style="padding:6px 12px;text-align:center;">JD TF-IDF Weight</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tfidf-missing-table"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- PANE 3: WORD2VEC PCA 2D EMBEDDING SPACE -->
+                            <div class="nlp-tab-pane" id="nlp-pane-embeddings">
+                                <h3 style="font-size:1.1rem;margin-bottom:0.8rem;color:var(--t1);">Dense Embeddings & PCA 2D Dimensionality Reduction</h3>
+                                <p style="font-size:0.85rem;color:var(--t2);margin-bottom:1.2rem;">
+                                    Projects 50-dimensional continuous Word2Vec / GloVe embeddings onto principal orthogonal components (PC1 & PC2). Clustered by technical domain to demonstrate geometric semantic relatedness.
+                                </p>
+                                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:1.2rem;">
+                                    <div style="background:var(--bg2);border:1px solid var(--border);padding:12px;border-radius:10px;text-align:center;">
+                                        <div style="font-size:0.75rem;color:var(--t3);text-transform:uppercase;">Semantic Match Score</div>
+                                        <div id="w2v-score" style="font-size:1.4rem;font-weight:800;color:var(--accent-lt);">0%</div>
+                                    </div>
+                                    <div style="background:var(--bg2);border:1px solid var(--border);padding:12px;border-radius:10px;text-align:center;">
+                                        <div style="font-size:0.75rem;color:var(--t3);text-transform:uppercase;">Exact Matches</div>
+                                        <div id="w2v-exact-count" style="font-size:1.4rem;font-weight:800;color:var(--success);">0</div>
+                                    </div>
+                                    <div style="background:var(--bg2);border:1px solid var(--border);padding:12px;border-radius:10px;text-align:center;">
+                                        <div style="font-size:0.75rem;color:var(--t3);text-transform:uppercase;">Semantic Inferences</div>
+                                        <div id="w2v-semantic-count" style="font-size:1.4rem;font-weight:800;color:#60a5fa;">0</div>
+                                    </div>
+                                    <div style="background:var(--bg2);border:1px solid var(--border);padding:12px;border-radius:10px;text-align:center;">
+                                        <div style="font-size:0.75rem;color:var(--t3);text-transform:uppercase;">True Gaps</div>
+                                        <div id="w2v-missing-count" style="font-size:1.4rem;font-weight:800;color:var(--danger);">0</div>
+                                    </div>
+                                </div>
+                                <div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:1.5rem;position:relative;height:380px;">
+                                    <canvas id="pcaCanvas"></canvas>
+                                </div>
+                                <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px;">
+                                    <h4 style="font-size:0.95rem;margin-bottom:8px;color:var(--t1);">Semantic Skill Bridges (Word2Vec Cosine Distance &ge; 0.50)</h4>
+                                    <div id="w2v-semantic-matches-list"></div>
+                                </div>
+                            </div>
+
+                            <!-- PANE 4: TRANSFORMERS & BERT CONTEXTUAL SKILL EXTRACTION -->
+                            <div class="nlp-tab-pane" id="nlp-pane-bert">
+                                <h3 style="font-size:1.25rem;font-weight:800;margin-bottom:0.6rem;color:var(--t1);">Transformers & BERT Contextual Skill Extraction</h3>
+                                <p style="font-size:0.85rem;color:var(--t2);margin-bottom:1.2rem;">
+                                    Extracts and validates technical skill entities dynamically in syntactic context using bidirectional self-attention mechanisms, subword WordPiece alignment, and verified skill taxonomy (<code>B-SKILL</code>, <code>I-SKILL</code>, <code>O</code>).
+                                </p>
+                                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:1.4rem;">
+                                    <div style="background:var(--bg2);border:1px solid var(--border);padding:14px;border-radius:10px;text-align:center;">
+                                        <div style="font-size:0.72rem;color:var(--t3);text-transform:uppercase;letter-spacing:0.04em;">Model Architecture</div>
+                                        <div style="font-size:1.05rem;font-weight:800;color:var(--t1);margin-top:2px;">DistilBERT (6-Layer)</div>
+                                    </div>
+                                    <div style="background:var(--bg2);border:1px solid var(--border);padding:14px;border-radius:10px;text-align:center;">
+                                        <div style="font-size:0.72rem;color:var(--t3);text-transform:uppercase;letter-spacing:0.04em;">Model Status</div>
+                                        <div id="bert-status" style="font-size:0.95rem;font-weight:800;color:var(--success);margin-top:2px;">Fine-Tuned Checkpoint Loaded</div>
+                                    </div>
+                                    <div style="background:var(--bg2);border:1px solid var(--border);padding:14px;border-radius:10px;text-align:center;">
+                                        <div style="font-size:0.72rem;color:var(--t3);text-transform:uppercase;letter-spacing:0.04em;">Total Valid Skills</div>
+                                        <div id="bert-entities-count" style="font-size:1.35rem;font-weight:800;color:#60a5fa;margin-top:2px;">0</div>
+                                    </div>
+                                    <div style="background:var(--bg2);border:1px solid var(--border);padding:14px;border-radius:10px;text-align:center;">
+                                        <div style="font-size:0.72rem;color:var(--t3);text-transform:uppercase;letter-spacing:0.04em;">JD Overlap Score</div>
+                                        <div id="bert-score" style="font-size:1.35rem;font-weight:800;color:var(--accent-lt);margin-top:2px;">0%</div>
+                                    </div>
+                                </div>
+
+                                <!-- Extracted Skills Grouped by Category -->
+                                <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:14px;">
+                                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                                        <h4 style="font-size:0.95rem;font-weight:700;color:var(--t1);margin:0;">Validated Skills by Category</h4>
+                                        <span style="font-size:0.75rem;color:var(--t3);">Contextual Extraction & Verification</span>
+                                    </div>
+                                    <div id="bert-category-groups" style="display:flex;flex-direction:column;gap:12px;">
+                                        <span class="empty-note">Run analysis to see contextual skills.</span>
+                                    </div>
+                                </div>
+
+                                <!-- Compact Skill Badges with Expandable Evidence -->
+                                <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:14px;">
+                                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                                        <h4 style="font-size:0.95rem;font-weight:700;color:var(--t1);margin:0;">Technical Entities & Contextual Evidence</h4>
+                                        <span style="font-size:0.75rem;color:var(--t3);">1-Sentence Direct Evidence</span>
+                                    </div>
+                                    <div id="bert-entities-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;">
+                                        <span class="empty-note">Run analysis to see detected entities.</span>
+                                    </div>
+                                </div>
+
+                                <!-- Optional Collapsible Advanced BIO Tagging Details -->
+                                <details style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px 16px;">
+                                    <summary style="cursor:pointer;font-weight:700;color:var(--t1);font-size:0.88rem;display:flex;align-items:center;gap:6px;">
+                                        <span>🔬</span> Advanced BIO Sequence Labeling & Token Breakdown
+                                    </summary>
+                                    <div style="margin-top:12px;font-size:0.8rem;color:var(--t3);margin-bottom:8px;">
+                                        WordPiece token-level sequence classifications: <code>B-SKILL</code> (Beginning), <code>I-SKILL</code> (Inside), <code>O</code> (Outside).
+                                    </div>
+                                    <div id="bert-bio-tokens-wrap" style="display:flex;flex-wrap:wrap;gap:6px;max-height:220px;overflow-y:auto;padding-right:4px;">
+                                        <span style="color:var(--t3);font-size:0.8rem;">Run analysis to inspect token-level BIO tags.</span>
+                                    </div>
+                                </details>
+                            </div>
+
+                            <!-- PANE 5: BENCHMARK & MODEL EVALUATION -->
+                            <div class="nlp-tab-pane" id="nlp-pane-benchmark">
+                                <h3 style="font-size:1.1rem;margin-bottom:0.8rem;color:var(--t1);">Evaluation Metrics & Multi-Approach Comparison</h3>
+                                <p style="font-size:0.85rem;color:var(--t2);margin-bottom:1.2rem;">
+                                    Rigorous academic benchmarking across all 5 paradigms evaluated against ground-truth technical skill annotations.
+                                </p>
+                                <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:1.5rem;overflow-x:auto;">
+                                    <table style="width:100%;font-size:0.85rem;border-collapse:collapse;">
+                                        <thead>
+                                            <tr style="background:var(--bg3);color:var(--t3);text-align:left;">
+                                                <th style="padding:10px 14px;">NLP Method</th>
+                                                <th style="padding:10px 14px;text-align:center;">Precision</th>
+                                                <th style="padding:10px 14px;text-align:center;">Recall</th>
+                                                <th style="padding:10px 14px;text-align:center;">F1-Score</th>
+                                                <th style="padding:10px 14px;text-align:center;">Latency</th>
+                                                <th style="padding:10px 14px;">Theoretical Tradeoffs</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="benchmark-table-body"></tbody>
+                                    </table>
+                                </div>
+                                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+                                    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px;">
+                                        <h4 style="font-size:0.95rem;margin-bottom:12px;color:var(--t1);">BERT Supervised Token Metrics</h4>
+                                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.85rem;">
+                                            <div>Token Accuracy: <strong id="eval-token-acc" style="color:var(--success);">0%</strong></div>
+                                            <div>Macro Precision: <strong id="eval-macro-prec" style="color:var(--accent-lt);">0%</strong></div>
+                                            <div>Macro Recall: <strong id="eval-macro-rec" style="color:#60a5fa;">0%</strong></div>
+                                            <div>Macro F1-Score: <strong id="eval-macro-f1" style="color:var(--warning);">0%</strong></div>
+                                        </div>
+                                    </div>
+                                    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px;">
+                                        <h4 style="font-size:0.95rem;margin-bottom:12px;color:var(--t1);">Confusion Matrix (Held-out Test Split)</h4>
+                                        <div id="eval-confusion-matrix"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- PANE 6: INTERACTIVE NLP SANDBOX -->
+                            <div class="nlp-tab-pane" id="nlp-pane-lab">
+                                <h3 style="font-size:1.1rem;margin-bottom:0.8rem;color:var(--t1);">Interactive NLP Experimentation Sandbox</h3>
+                                <p style="font-size:0.85rem;color:var(--t2);margin-bottom:1.5rem;">
+                                    Directly test vector arithmetic analogies in Word2Vec space or run BERT contextual token classification inference on arbitrary text.
+                                </p>
+                                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+                                    <!-- Word Analogy Tester -->
+                                    <div style="background:var(--bg2);border:1px solid var(--border);padding:18px;border-radius:12px;">
+                                        <h4 style="font-size:0.95rem;margin-bottom:12px;color:var(--t1);">Word2Vec Analogy Calculator</h4>
+                                        <div style="font-size:0.8rem;color:var(--t3);margin-bottom:8px;">Equation: Vector(pos_b) - Vector(neg_c) + Vector(pos_a)</div>
+                                        <div style="display:flex;gap:6px;align-items:center;margin-bottom:12px;">
+                                            <input type="text" id="analogy-pos-a" value="python" style="background:var(--bg3);border:1px solid var(--border);color:var(--t1);padding:6px;border-radius:6px;width:30%;font-size:0.85rem;">
+                                            <span style="color:var(--t3);">+</span>
+                                            <input type="text" id="analogy-pos-b" value="backend" style="background:var(--bg3);border:1px solid var(--border);color:var(--t1);padding:6px;border-radius:6px;width:30%;font-size:0.85rem;">
+                                            <span style="color:var(--t3);">-</span>
+                                            <input type="text" id="analogy-neg-c" value="frontend" style="background:var(--bg3);border:1px solid var(--border);color:var(--t1);padding:6px;border-radius:6px;width:30%;font-size:0.85rem;">
+                                        </div>
+                                        <button type="button" class="btn btn-secondary" id="btn-run-analogy" style="width:100%;padding:8px;font-size:0.85rem;">
+                                            Solve Vector Analogy →
+                                        </button>
+                                        <div id="analogy-result-box" style="margin-top:10px;font-size:0.85rem;color:var(--t2);"></div>
+                                    </div>
+
+                                    <!-- Custom BERT Sentence Tester -->
+                                    <div style="background:var(--bg2);border:1px solid var(--border);padding:18px;border-radius:12px;">
+                                        <h4 style="font-size:0.95rem;margin-bottom:12px;color:var(--t1);">Live BERT Token Classification (BIO)</h4>
+                                        <textarea id="bert-custom-text" style="width:100%;height:70px;background:var(--bg3);border:1px solid var(--border);color:var(--t1);padding:8px;border-radius:6px;font-size:0.85rem;margin-bottom:10px;" placeholder="Type any sentence e.g. Engineered cloud microservices using Python, Docker, and Kubernetes on AWS."></textarea>
+                                        <button type="button" class="btn btn-secondary" id="btn-run-bert-custom" style="width:100%;padding:8px;font-size:0.85rem;">
+                                            Run BERT Token Classification →
+                                        </button>
+                                        <div id="bert-custom-results" style="margin-top:10px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+<div style="text-align: center; margin-top: 40px; margin-bottom: 60px;">
+                        <button class="btn btn-secondary new-analysis-trigger" id="new-analysis-btn-bottom"
+                            style="display:none;">
+                            🔄 Analyze Another Job
+                        </button>
+                    </div>
+
+                </div>
+            </section>
+
+        </main>
     </div>
+
+    <!-- ═══════════════════════════════════════════
+     COMPARE MODE — Full Width Section (outside app-layout)
+    ════════════════════════════════════════════ -->
+
+
+
+    <!-- ── CAREER CHATBOT ── -->
+    <button class="chatbot-toggle" id="chatbot-toggle" title="Career Assistant">
+        <span>💬</span>
+    </button>
+
+    <div class="chat-window" id="chat-window">
+        <div class="chat-header">
+            <div class="bot-avatar">🤖</div>
+            <div class="chat-header-info">
+                <h4>Career AI Assistant</h4>
+                <span>Online</span>
+            </div>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <!-- Messages go here -->
+        </div>
+        <div class="quick-buttons">
+            <button class="quick-btn">Improve Resume</button>
+            <button class="quick-btn">Skills to Learn</button>
+            <button class="quick-btn">Why low score?</button>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" class="chat-input" id="chat-input" placeholder="Type a message..." autocomplete="off">
+            <button class="chat-send-btn" id="chat-send-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════
+     SCRIPTS  (order matters)
+════════════════════════════════════════════ -->
+    <link rel="stylesheet" href="css/chatbot.css">
+
+    <!-- ═══════════════════════════════════════════
+         DEPENDENCIES
+    ════════════════════════════════════════════ -->
+    <script src="js/theme-toggle.js"></script>
+
+    <!-- ═══════════════════════════════════════════
+         APPLICATION ENTRY POINT (single bundle, no ES modules)
+    ════════════════════════════════════════════ -->
+    <script src="js/pdf-export.js"></script>
+    <script src="js/resume-suggestions.js"></script>
+    <script src="js/chatbot.js"></script>
+    <script src="js/nlp-dashboard.js"></script>
+    <script src="js/app.js"></script>
+
 </body>
+
 </html>

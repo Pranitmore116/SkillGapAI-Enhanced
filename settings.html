@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillGapAI — User Settings</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/theme-loader.js"></script>
+    <style>
+        .settings-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .settings-card {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            padding: 3rem;
+            margin-top: 2rem;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .settings-header {
+            margin-bottom: 2.5rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1.5rem;
+        }
+
+        .settings-form-group {
+            margin-bottom: 2rem;
+        }
+
+        .settings-label {
+            display: block;
+            color: var(--t1);
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .settings-desc {
+            color: var(--t2);
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+        }
+
+        .settings-input,
+        .settings-select {
+            width: 100%;
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1rem;
+            color: var(--t1);
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        .settings-input:focus,
+        .settings-select:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: var(--bg4);
+        }
+
+        /* Toggle Switch */
+        .toggle-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.5rem;
+            background: var(--bg3);
+            border-radius: var(--radius);
+            margin-top: 1rem;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--bg4);
+            transition: .4s;
+            border-radius: 34px;
+            border: 1px solid var(--border);
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked+.slider {
+            background-color: var(--accent);
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(24px);
+        }
+
+        .settings-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Light Mode Basic Implementation */
+        body.light-mode {
+            --bg: #f8fafc;
+            --bg2: #ffffff;
+            --bg3: #f1f5f9;
+            --bg4: #e2e8f0;
+            --t1: #0f172a;
+            --t2: #475569;
+            --t3: #94a3b8;
+            --border: #e2e8f0;
+        }
+
+        body.light-mode::before,
+        body.light-mode::after {
+            opacity: 0.3;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app-layout">
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                    </svg>
+                </div>
+                <span class="logo-text" id="logo-text-full">SkillGap<span class="logo-accent">AI</span></span>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="index.html" class="side-link">
+                    <span class="s-icon">🏠</span> <span class="s-text">Home</span>
+                </a>
+                <a href="dashboard.html" class="side-link">
+                    <span class="s-icon">📊</span> <span class="s-text">Overview</span>
+                </a>
+                <a href="roadmap.html" class="side-link">
+                    <span class="s-icon">🗺️</span> <span class="s-text">Learning Paths</span>
+                </a>
+                <a href="jobs.html" class="side-link">
+                    <span class="s-icon">💼</span> <span class="s-text">Job Matches</span>
+                </a>
+                <a href="compare.html" class="side-link">
+                    <span class="s-icon">⚖️</span> <span class="s-text">Compare</span>
+                </a>
+                <a href="history.html" class="side-link">
+                    <span class="s-icon">🕒</span> <span class="s-text">History</span>
+                </a>
+                                <a href="nlp-lab.html" class="side-link">
+                    <span class="s-icon">🔬</span> <span class="s-text">NLP Lab</span>
+                </a>
+                <a href="methodology.html" class="side-link">
+                    <span class="s-icon">🎓</span> <span class="s-text">Methodology</span>
+                </a>
+<a href="about.html" class="side-link">
+                    <span class="s-icon">ℹ️</span> <span class="s-text">About</span>
+                </a>
+                <a href="settings.html" class="side-link active">
+                    <span class="s-icon">⚙️</span> <span class="s-text">Settings</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="nav-pill" style="margin-bottom: 1rem; width: 100%; justify-content: center;">
+                    <span class="pulse-dot"></span>
+                    <span class="s-text">NLP Active</span>
+                </div>
+                <!-- Settings toggle is inside the main page, but we can also have one in sidebar -->
+                <button id="theme-toggle-btn" class="btn-ghost side-btn" title="Toggle Theme"
+                    style="width: 100%; margin-bottom: 0.5rem; justify-content: center; display: flex;">
+                    <span class="icon-moon">🌙</span>
+                    <span class="icon-sun" style="display:none;">☀️</span>
+                    <span class="s-text" style="margin-left: 0.5rem;">Theme</span>
+                </button>
+                <button class="btn-ghost side-btn" id="logout-btn" style="width: 100%; justify-content: center;">🚪
+                    <span class="s-text">Logout</span></button>
+            </div>
+        </aside>
+
+        <!-- MAIN LAYOUT WRAPPER -->
+        <main class="app-main">
+
+            <main class="settings-container">
+                <header>
+                    <h1 style="font-size: 2.5rem; font-weight: 800;">Settings</h1>
+                    <p style="color: var(--t2);">Manage your profile and application preferences.</p>
+                </header>
+
+                <div class="settings-card">
+                    <form id="settingsForm">
+                        <div class="settings-header">
+                            <h2 style="font-size: 1.25rem; font-weight: 700;">Account Profile</h2>
+                        </div>
+
+                        <!-- Name -->
+                        <div class="settings-form-group">
+                            <label class="settings-label" for="userNameInput">Full Name</label>
+                            <p class="settings-desc">How you'll be addressed in reports and the dashboard.</p>
+                            <input type="text" id="userNameInput" class="settings-input" placeholder="e.g. John Doe">
+                        </div>
+
+                        <!-- Job Role -->
+                        <div class="settings-form-group">
+                            <label class="settings-label" for="targetRoleInput">Target Job Role</label>
+                            <p class="settings-desc">Your dream position. We'll prioritize skills for this cluster.</p>
+                            <input type="text" id="targetRoleInput" class="settings-input"
+                                placeholder="e.g. Senior Frontend Engineer">
+                        </div>
+
+                        <!-- Skill Focus -->
+                        <div class="settings-form-group">
+                            <label class="settings-label" for="skillFocusSelect">Skill Focus Priority</label>
+                            <p class="settings-desc">Which skill category should we highlight in your roadmap?</p>
+                            <select id="skillFocusSelect" class="settings-select">
+                                <option value="frontend">Frontend Development (React, UX, CSS)</option>
+                                <option value="backend">Backend & Architecture (Node, SQL, APIs)</option>
+                                <option value="devops">DevOps & Cloud (AWS, Docker, CI/CD)</option>
+                                <option value="data">Data Science & AI (Python, ML, Stats)</option>
+                                <option value="management">Product & Engineering Management</option>
+                            </select>
+                        </div>
+
+                        <div class="settings-header" style="margin-top: 3rem;">
+                            <h2 style="font-size: 1.25rem; font-weight: 700;">Appearance</h2>
+                        </div>
+
+                        <!-- Theme Toggle -->
+                        <div class="settings-form-group">
+                            <label class="settings-label">Interface Theme</label>
+                            <p class="settings-desc">Switch between dark and light modes for optimal viewing.</p>
+                            <div class="toggle-row">
+                                <div style="display:flex; align-items:center; gap:0.75rem;">
+                                    <span id="themeLabel">Dark Mode</span>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" id="themeToggle">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="settings-actions">
+                            <button type="button" class="btn-ghost" id="cancelBtn">Discard Changes</button>
+                            <button type="submit" class="btn-analyze" style="padding: 0.8rem 2rem;">Save
+                                Preferences</button>
+                        </div>
+                    </form>
+                </div>
+            </main>
+    </div>
+
+    <script src="js/settings.js"></script>
+</body>
+
+</html>
