@@ -1,16 +1,26 @@
 /**
- * SkillGapAI — Node.js Express Backend
- * Handles Chatbot API and potentially other integrations.
+ * SkillGapAI — Node.js Express Server
+ * Serves the SkillGapAI Frontend website and powers the Chatbot API.
  */
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const path = require('path');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(bodyParser.json());
+
+// Serve static frontend files
+app.use(express.static(path.join(__dirname, 'SkillGapAI-Frontend')));
+app.use('/SkillGapAI-Frontend', express.static(path.join(__dirname, 'SkillGapAI-Frontend')));
+
+// Default root route
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'SkillGapAI-Frontend', 'index.html'));
+});
 
 // ── CHATBOT LOGIC ──
 const BOT_PERSONALITY = "I'm your SkillGap AI Career Assistant.";
@@ -72,6 +82,7 @@ app.post('/api/chatbot', (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`\n🚀 SkillGapAI Node.js Backend running at http://localhost:${PORT}`);
+    console.log(`\n🚀 SkillGapAI Server running at http://localhost:${PORT}`);
+    console.log(`🌐 Website URL: http://localhost:${PORT}`);
     console.log(`💬 Chatbot API: http://localhost:${PORT}/api/chatbot\n`);
 });

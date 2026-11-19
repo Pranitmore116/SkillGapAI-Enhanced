@@ -1,0 +1,12 @@
+[build]
+  publish = "SkillGapAI-Frontend"
+
+[[redirects]]
+  from = "/SkillGapAI-Frontend/*"
+  to = "/:splat"
+  status = 301
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

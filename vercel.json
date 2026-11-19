@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/", "destination": "/SkillGapAI-Frontend/index.html" },
+    { "source": "/SkillGapAI-Frontend/(.*)", "destination": "/SkillGapAI-Frontend/$1" },
+    { "source": "/css/(.*)", "destination": "/SkillGapAI-Frontend/css/$1" },
+    { "source": "/js/(.*)", "destination": "/SkillGapAI-Frontend/js/$1" },
+    { "source": "/([^/]+\\.html)", "destination": "/SkillGapAI-Frontend/$1" },
+    { "source": "/dashboard", "destination": "/SkillGapAI-Frontend/dashboard.html" },
+    { "source": "/jobs", "destination": "/SkillGapAI-Frontend/jobs.html" },
+    { "source": "/compare", "destination": "/SkillGapAI-Frontend/compare.html" },
+    { "source": "/roadmap", "destination": "/SkillGapAI-Frontend/roadmap.html" },
+    { "source": "/history", "destination": "/SkillGapAI-Frontend/history.html" },
+    { "source": "/nlp-lab", "destination": "/SkillGapAI-Frontend/nlp-lab.html" },
+    { "source": "/methodology", "destination": "/SkillGapAI-Frontend/methodology.html" },
+    { "source": "/about", "destination": "/SkillGapAI-Frontend/about.html" },
+    { "source": "/settings", "destination": "/SkillGapAI-Frontend/settings.html" }
+  ]
+}

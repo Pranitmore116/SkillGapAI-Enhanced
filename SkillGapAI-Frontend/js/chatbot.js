@@ -16,7 +16,17 @@
 
     // Chatbot UI Constants
     const WELCOME_MSG = "Hello! I'm your SkillGap AI Career Assistant. How can I help you today?";
-    const CHATBOT_API = 'http://localhost:3000/api/chatbot';
+    function getChatbotApiUrl() {
+        if (typeof window !== 'undefined' && window.location && window.location.protocol.startsWith('http')) {
+            const host = window.location.hostname;
+            if (host === 'localhost' || host === '127.0.0.1') {
+                return (window.location.port === '3000') ? '/api/chatbot' : 'http://localhost:3000/api/chatbot';
+            }
+            return '/api/chatbot';
+        }
+        return 'http://localhost:3000/api/chatbot';
+    }
+    const CHATBOT_API = getChatbotApiUrl();
 
     function initChatbot() {
         const toggle = $('chatbot-toggle');
